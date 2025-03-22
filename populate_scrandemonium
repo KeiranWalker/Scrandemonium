@@ -1,0 +1,295 @@
+import datetime
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scrandemonium_project.settings')
+
+import django
+django.setup()
+
+from django.contrib.auth.models import User
+from scrandemonium.models import UserProfile, Comment, Tag, RecipeTag, Recipe, RecipeIngredient, Ingredient, Media, Favourite
+from scrandemonium_project.settings import MEDIA_URL
+
+def populate():
+
+    # User
+    users_data = [
+        {"username": "JohnDoe123",
+          "password": "Password1",
+          "biography": "I am a fun, food loving, culinery genius.  Looking to share my gift with the world.", 
+          "email": "JoeDoe123@gmail.com", 
+          "profile_picture": MEDIA_URL+"populationScript/PopulationScriptJohnDoe.png", 
+          "is_superuser": False},
+
+        {"username": "Marge1967", 
+         "password": "Password3", 
+         "biography": "Hello Dears.  Grandmother of 2 xx", 
+         "email": "MargeSmith67@sky.com", 
+         "profile_picture": MEDIA_URL+"populationScript/PopulationScriptMarge.jpg", 
+         "is_superuser": False}
+    ]
+
+    for user in users_data:
+        u, created = User.objects.get_or_create(username=user["username"], email=user["email"], is_superuser=user["is_superuser"])
+
+        if created:
+            u.set_password(user["password"])
+            u.save()
+
+            p = UserProfile.objects.get_or_create(
+                    user=u,
+                    biography=user["biography"],
+                    profile_picture=user["profile_picture"])
+            print(f"{u.username} => USERPROFILE created")
+        else:
+            print(f"{u.username} => USERPROFILE already exists")
+
+    # Recipe
+    recipe_data = [
+        {"meal_type": "BREAKFAST",
+        "user": 1,
+        "title": "Pancakes",
+        "steps": "Mix flour, sugar, baking powder, and salt; In a separate bowl, whisk eggs, milk, and butter; Combine wet and dry ingredients; Pour batter onto a heated pan; Flip when bubbles form; Cook until golden brown; Serve with syrup or fruits",
+        "servings": 4,
+        "cooking_time": 20,
+        "fav_count": 25},
+
+        {"meal_type": "DINNER",
+        "user": 2,
+        "title": "Spaghetti Bolognese",
+        "step": "Heat olive oil in a pan; Cook onions and garlic until soft; Add ground beef and cook until browned; Stir in tomato sauce and herbs; Simmer for 20 minutes; Cook spaghetti according to package; Serve with grated Parmesan cheese",
+        "servings": 4,
+        "cooking_time": 40,
+        "fav_count": 32},
+
+        {"meal_type": "DESSERT",
+        "user": 1,
+        "title": "Chocolate Lava Cake",
+        "steps": "Preheat oven to 220°C; Melt chocolate and butter together; Beat eggs and sugar until fluffy; Fold in melted chocolate; Pour batter into greased ramekins; Bake for 12 minutes until edges are set but center is gooey; Serve immediately",
+        "servings": 2,
+        "cooking_time": 15,
+        "fav_count": 40}
+    ]
+
+    for recipe in recipe_data:
+        r, created = Recipe.objects.get_or_create(title=recipe["title"],
+                                      user_profile_id=recipe["user"],
+                                      defaults={"meal_type":recipe["meal_type"],
+                                               "step": recipe["step"],
+                                               "servings": recipe["servings"],
+                                               "cooking_time": recipe["cooking_time"],
+                                               "fav_count": recipe["fav_count"]})
+        if created:
+            print(f"{r.title} => RECIPE created")
+        else:
+            print (f"{r.title} => RECIPE already exists")
+
+    # Ingredient
+    ingredient_data = [
+        {"name": "flour"},
+        {"name": "sugar"},
+        {"name": "salt"},
+        {"name": "black pepper"},
+        {"name": "olive oil"},
+        {"name": "butter"},
+        {"name": "milk"},
+        {"name": "eggs"},
+        {"name": "cheddar cheese"},
+        {"name": "chicken breast"},
+        {"name": "ground beef"}, 
+        {"name": "cheese"},
+        {"name": "salmon"},
+        {"name": "cream"},
+        {"name": "shrimp"},
+        {"name": "garlic"},
+        {"name": "onion"},
+        {"name": "carrot"},
+        {"name": "tomato"},
+        {"name": "lettuce"},
+        {"name": "potato"},
+        {"name": "rice"},
+        {"name": "pasta"},
+        {"name": "honey"},
+        {"name": "soy sauce"},
+        {"name": "vinegar"},
+        {"name": "cinnamon"},
+        {"name": "basil"},
+        {"name": "oregano"},
+        {"name": "cumin"},
+        {"name": "coconut milk"},
+        {"name": "almonds"}
+    ]
+
+    for ingredient in ingredient_data:
+        i, created = Ingredient.objects.get_or_create(name=ingredient["name"])
+        
+        if created:
+            print(f"{i.name} => INGREDIENT created")
+        else:
+            print(f"{i.name} => INGREDIENT already exists") 
+
+    # RecipeIngredient
+    recipe_ingredient_data = [
+        # Fluffy Pancakes
+        {"recipe": 1, "ingredient": 1, "quantity": "2 cups"},    
+        {"recipe": 1, "ingredient": 2, "quantity": "2 tbsp"},    
+        {"recipe": 1, "ingredient": 3, "quantity": "1/2 tsp"},   
+        {"recipe": 1, "ingredient": 7, "quantity": "1 cup"},      
+        {"recipe": 1, "ingredient": 8, "quantity": "2"},          
+        {"recipe": 1, "ingredient": 6, "quantity": "2 tbsp"},     
+
+        # Spaghetti Bolognese
+        {"recipe": 2, "ingredient": 10, "quantity": "500g"},     
+        {"recipe": 2, "ingredient": 15, "quantity": "1"},        
+        {"recipe": 2, "ingredient": 16, "quantity": "1"},        
+        {"recipe": 2, "ingredient": 17, "quantity": "400g"},     
+        {"recipe": 2, "ingredient": 21, "quantity": "200g"},     
+        {"recipe": 2, "ingredient": 5, "quantity": "2 tbsp"},    
+        {"recipe": 2, "ingredient": 27, "quantity": "1 tsp"},    
+        # Chocolate Lava Cake
+        {"recipe": 3, "ingredient": 1, "quantity": "1/2 cup"},   
+        {"recipe": 3, "ingredient": 2, "quantity": "1/4 cup"},   
+        {"recipe": 3, "ingredient": 6, "quantity": "4 tbsp"},    
+        {"recipe": 3, "ingredient": 8, "quantity": "2"},         
+        {"recipe": 3, "ingredient": 30, "quantity": "100ml"}
+    ]
+
+    for recipe_ingredient in recipe_ingredient_data:
+        r, created = RecipeIngredient.objects.get_or_create(recipe_id=recipe_ingredient["recipe"], 
+                                                            ingredient_id=recipe_ingredient["ingredient"], 
+                                                            defaults={"quantity": recipe_ingredient["quantity"]})
+        
+        if created:
+            print(f"=> RECIPEINGREDIENT created")
+        else:
+            print(f"=> RECIPEINGREDIENT already exists")
+
+    media_data = [
+        {"recipe": 1, "media_type": "IMAGE", "media_url": MEDIA_URL+"populationScript/PopulationScriptPancakes.jpg"},
+        {"recipe": 2, "media_type": "IMAGE", "media_url": MEDIA_URL+"populationScript/PopulationScriptSpaghetti.jpg"},
+        {"recipe": 3, "media_type": "IMAGE", "media_url": MEDIA_URL+"populationScript/PopulationScriptLavaCake.jpg"}
+    ]
+    
+    for media in media_data:
+        m, created = Media.objects.get_or_create(recipe=media["recipe"], media_type=media["media_type"], media_url=media["media_url"])
+
+        if created:
+            print(f"{m.media_url} => created")
+        else:
+            print(f"{m.media_url} => already exists")
+
+    favourite_data = [
+        {"user": 1, "recipe": 1},  
+        {"user": 1, "recipe": 2},  
+        {"user": 2, "recipe": 3},  
+        {"user": 2, "recipe": 1},  
+    ]
+
+    for favourite in favourite_data:
+        f, created = Favourite.objects.get_or_create(user_id=favourite["user"], recipe_id=favourite["recipe"])
+
+        if created:
+            print(f"=> FAVOURITE created")
+        else:
+            print(f"=> FAVOURITE already exists")
+
+    comment_data = [
+        {
+            "user": 1, "recipe": 1, "comment": "These pancakes are amazing! So fluffy and delicious.",
+            "recipe_rating": 5, "likes": 10, "date_time": "2024-03-15 08:30:00"
+        },
+        {
+            "user": 2, "recipe": 1, "comment": "Great recipe, but I added a bit more sugar for sweetness.",
+            "recipe_rating": 4, "likes": 5, "date_time": "2024-03-15 09:15:00"
+        },
+        {
+            "user": 1, "recipe": 2, "comment": "This spaghetti Bolognese was a hit with my family!",
+            "recipe_rating": 5, "likes": 8, "date_time": "2024-03-16 12:45:00"
+        },
+        {
+            "user": 1, "recipe": 3, "comment": "Easy to make, but I would use fresh tomatoes next time.",
+            "recipe_rating": 4, "likes": 3, "date_time": "2024-03-17 14:10:00"
+        },
+        {
+            "user": 2, "recipe": 3, "comment": "This lava cake is divine! Perfectly gooey in the center.",
+            "recipe_rating": 5, "likes": 12, "date_time": "2024-03-18 19:30:00"
+        }
+    ]
+
+    for comment in comment_data:
+        c, created = Comment.objects.get_or_create(user_id=comment["user"], 
+                                                   recipe_id=comment["recipe"],
+                                                   defaults={"comment": comment["comment"],
+                                                             "recipe_rating": comment["recipe_rating"],
+                                                             "likes": comment["likes"],
+                                                             "date_time": datetime.strptime(comment["date_time"], "%Y-%m-%d %H:%M:%S")})
+        if created:
+            print(f"=> COMMENT created for user {comment["user"]} and recipe {comment['recipe']}")
+        else:
+            print(f"=> COMMENT already exists for user {comment["user"]} and recipe {comment['recipe']}")
+
+    tag_data = [
+        {"name": "Vegetarian", "user": 1},
+        {"name": "Quick & Easy", "user": 2},
+        {"name": "Dessert", "user": 1},
+        {"name": "High Protein", "user": 2},
+        {"name": "Spicy", "user": 2},
+        {"name": "Gluten-Free", "user": 1},
+        {"name": "Breakfast", "user": 1},
+        {"name": "Italian", "user": 2},
+        {"name": "Low Carb", "user": 2},
+        {"name": "Vegan", "user": 1},
+        {"name": "Comfort Food", "user": 2},
+        {"name": "Keto", "user": 1},
+        {"name": "Dairy-Free", "user": 2},
+        {"name": "Healthy", "user": 1},
+        {"name": "One-Pot Meal", "user": 2},
+        {"name": "Family-Friendly", "user": 1},
+        {"name": "Asian Cuisine", "user": 2},
+        {"name": "BBQ", "user": 1},
+        {"name": "Soup", "user": 2},
+        {"name": "Salad", "user": 1},
+        {"name": "Holiday Special", "user": 2},
+        {"name": "Baking", "user": 1},
+        {"name": "Slow Cooker", "user": 2},
+        {"name": "High Fiber", "user": 1},
+        {"name": "Budget-Friendly", "user": 2}
+    ]
+
+    for tag in tag_data:
+        t, created = Tag.objects.get_or_create(name=tag["name"],
+                                               defaults={"user_id": tag["user"]})
+        if created:
+            print(f"{t.name} => TAG created")
+        else:
+            print(f"{t.name} => already exists")
+
+    recipe_tag_data = [
+        {"recipe": 1, "tag": 7},
+        {"recipe": 1, "tag": 2},
+        {"recipe": 1, "tag": 6},
+        {"recipe": 1, "tag": 14},  
+        {"recipe": 1, "tag": 23},  
+        {"recipe": 2, "tag": 8},
+        {"recipe": 2, "tag": 4},
+        {"recipe": 2, "tag": 5},
+        {"recipe": 2, "tag": 16},
+        {"recipe": 2, "tag": 25},
+        {"recipe": 3, "tag": 3},  
+        {"recipe": 3, "tag": 2},
+        {"recipe": 3, "tag": 10}, 
+        {"recipe": 3, "tag": 22},
+    ]
+
+    for recipe_tag in recipe_tag_data:
+        r, created - RecipeTag.objects.get_or_create(recipe_id=recipe_tag["recipe"], tag_id=recipe_tag["tag"])
+
+        if created:
+            print(f"=> RECIPETAG created for recipe {r.recipe_id} and tag {t.tag_id}")
+        else:
+            print (f"=> RECIPETAG already exists for recipe {r.recipe_id} and tag {t.tag_id}")
+
+
+if __name__ == '__main__':
+    print("Starting Scrandemonium Population Script...")
+    populate()
+    print("Population Complete.")

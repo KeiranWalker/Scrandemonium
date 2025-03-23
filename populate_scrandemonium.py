@@ -15,11 +15,10 @@ def populate():
     users_data = [
         {"username": "JohnDoe123",
           "password": "Password1",
-          "biography": "I am a fun, food loving, culinery genius.  Looking to share my gift with the world.", 
+          "biography": "I am a fun, food loving, culinary genius.  Looking to share my gift with the world.", 
           "email": "JoeDoe123@gmail.com", 
           "profile_picture": MEDIA_URL+"populationScript/PopulationScriptJohnDoe.png",
           "is_superuser": False},
-
         {"username": "Marge1967", 
          "password": "Password3", 
          "biography": "Hello Dears.  Grandmother of 2 xx", 
@@ -240,7 +239,7 @@ def populate():
                                                              "likes": comment["likes"],
                                                              "date_time": datetime.strptime(comment["date_time"], "%Y-%m-%d %H:%M:%S")})
         if created:
-            print(f"=> COMMENT created for user {comment["user"]} and recipe {comment['recipe']}")
+            print(f"=> COMMENT created for user {comment['user']} and recipe {comment['recipe']}")
         else:
             print(f"=> COMMENT already exists for user {comment["user"]} and recipe {comment['recipe']}")
 

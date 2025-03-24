@@ -1,0 +1,67 @@
+{% extends 'scrandemonium/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Profile
+{% endblock %}
+
+{% block body_block %}
+
+    <div>
+        <img src="{{ user.profilePicture }}" alt="Profile Picture" />
+    </div>
+
+    <div>
+        <h1>{{ user.username }}</h1>
+        <p>{{ user.biography}}</p>
+
+    </div>
+
+    <div>
+        <h2>{{ user.username}}'s Favourites</h2>
+        
+        <h4>Recipe 1</h4>
+        <img src="" alt="Recipe Picture" />
+
+        <h4>Recipe 2</h4>
+        <img src="" alt="Recipe Picture" />
+
+        <h4>Recipe 3</h4>
+        <img src="" alt="Recipe Picture" />
+    </div>
+
+    <div>
+        <h2>{{ user.username }}'s Recipes</h2>
+        <table>
+            <tr>
+                <th>Recipes</th>
+            </tr>
+            {% for recipe in user.recipes %}
+            <tr>
+                <td>{{ recipe.title }}</td>
+                <td>{{ recipe.mealType }}</td>
+                <td>{{ recipe.ratingAvg }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <div>
+        <h2>{{ user.username }}'s Reviews</h2>
+        <table>
+            <tr>
+                <th>Reviews</th>
+            </tr>
+            {% for recipe in user.recipes %}
+            <tr>
+                <td>{{ recipe.title }}</td>
+                <td>{{ recipe.favourite.userID.username }}</td>
+                <td>{{ recipe.favourite.userID.recipeRating }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+    </div>
+{% endblock %}

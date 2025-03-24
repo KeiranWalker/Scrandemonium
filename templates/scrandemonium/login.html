@@ -1,0 +1,30 @@
+{% extends 'scrandemonium/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Login
+{% endblock %}
+
+{% block body_block %}
+    <h1>
+        Login to Scrandemonium
+    </h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome back, {{ user.username }}! <a href="">Logout</a></p>
+    {% else %}
+        <p>Please enter your login details below:</p>
+        <form id="login_form" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="username">Username or Email:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required />
+
+            <input type="submit" name="submit" value="Login" />
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    {% endif %}
+{% endblock %}

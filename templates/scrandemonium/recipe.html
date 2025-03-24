@@ -1,0 +1,64 @@
+{% extends 'scrandemonium/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {{ recipe.title }}
+{% endblock %}
+
+{% block body_block %}
+
+    <div>
+        <h1>{{ recipe.title }}</h1>
+        <p><strong>Uploaded by: {{ user.username }}</strong> </p>
+        <p><strong>Rating: {{ recipe.ratingAvg }}</strong> </p>
+        <p><strong>Servings: {{ recipe.servings }}</strong> </p>
+        <p><strong>Time to make: {{ recipe.cookingTime }}</strong> </p>
+
+        <!--Ingredients Table-->
+        <h2>Ingredients</h2>
+        <table>
+            <tr>
+                <th>Ingredient</th>
+                <th>Quantity</th>
+            </tr>
+            {% for ingredient in recipe.ingredients %}
+            <tr>
+                <td>{{ ingredient.ingredientName }}</td>
+                <td>{{ ingredient.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!--Food Photo-->
+    <div>
+        <img src="{{ recipe.photo }}" alt="Recipe Photo" />
+    </div>
+
+    <!--How to Video-->
+    <div>
+        <video controls>
+            <source src="{{ recipe.video }}" type="How to video" />
+        </video>
+    </div>
+
+    <!--List of Steps-->
+    <div>
+        <h2>Steps</h2>
+        <ol>
+            {% for step in recipe.steps %}
+            <li>{{ step }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+    
+    <!--Comment List-->
+    <div>
+        <h2>Reviews</h2>
+        <ol>
+            {% for comment in comment.comments %}
+            <li>{{ comment }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endblock %}

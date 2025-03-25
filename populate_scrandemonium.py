@@ -5,8 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'scrandemonium_project.settings'
 import django
 django.setup()
 
-from django.contrib.auth.models import User
-from scrandemonium.models import UserProfile, Comment, Tag, RecipeTag, Recipe, RecipeIngredient, Ingredient, Media, Favourite
+from scrandemonium.models import User, Comment, Tag, RecipeTag, Recipe, RecipeIngredient, Ingredient, Media, Favourite, Rating, CommentLike
 from scrandemonium_project.settings import MEDIA_URL
 
 def populate():
@@ -27,49 +26,38 @@ def populate():
          "is_superuser": False}
     ]
 
-    # To dynamically
     user_mapping = {}
 
     for user in users_data:
-        u, created = User.objects.get_or_create(username=user["username"], email=user["email"], is_superuser=user["is_superuser"])
 
-        if created:
-            u.set_password(user["password"])
-            u.save()
-
-            UserProfile.objects.get_or_create(
-                    user=u,
-                    biography=user["biography"],
-                    profile_picture=user["profile_picture"])
+        u = User.objects.create_user(username=user["username"], email=user["email"], is_superuser=user["is_superuser"], biography=user["biography"], password=user["password"])
             
-            user_mapping[user["username"]] = u.id
+        user_mapping[user["username"]] = u.id
 
-            print(f"{u.username} => USERPROFILE created")
-        else:
-            print(f"{u.username} => USERPROFILE already exists")
+        print(f"{u.username} => USERPROFILE created")
 
     # Recipe
     recipe_data = [
-        {"meal_type": "BREAKFAST",
+        {"meal_type": "Breakfast",
         "user": "JohnDoe123",
         "title": "Pancakes",
-        "steps": "Mix flour, sugar, baking powder, and salt; In a separate bowl, whisk eggs, milk, and butter; Combine wet and dry ingredients; Pour batter onto a heated pan; Flip when bubbles form; Cook until golden brown; Serve with syrup or fruits",
+        "step": "Mix flour, sugar, baking powder, and salt; In a separate bowl, whisk eggs, milk, and butter; Combine wet and dry ingredients; Pour batter onto a heated pan; Flip when bubbles form; Cook until golden brown; Serve with syrup or fruits",
         "servings": 4,
         "cooking_time": 20,
         "fav_count": 25},
 
-        {"meal_type": "DINNER",
+        {"meal_type": "Dinner",
         "user": "Marge1967",
         "title": "Spaghetti Bolognese",
-        "steps": "Heat olive oil in a pan; Cook onions and garlic until soft; Add ground beef and cook until browned; Stir in tomato sauce and herbs; Simmer for 20 minutes; Cook spaghetti according to package; Serve with grated Parmesan cheese",
+        "step": "Heat olive oil in a pan; Cook onions and garlic until soft; Add ground beef and cook until browned; Stir in tomato sauce and herbs; Simmer for 20 minutes; Cook spaghetti according to package; Serve with grated Parmesan cheese",
         "servings": 4,
         "cooking_time": 40,
         "fav_count": 32},
 
-        {"meal_type": "DESSERT",
+        {"meal_type": "Desser",
         "user": "JohnDoe123",
         "title": "Chocolate Lava Cake",
-        "steps": "Preheat oven to 220°C; Melt chocolate and butter together; Beat eggs and sugar until fluffy; Fold in melted chocolate; Pour batter into greased ramekins; Bake for 12 minutes until edges are set but center is gooey; Serve immediately",
+        "step": "Preheat oven to 220°C; Melt chocolate and butter together; Beat eggs and sugar until fluffy; Fold in melted chocolate; Pour batter into greased ramekins; Bake for 12 minutes until edges are set but center is gooey; Serve immediately",
         "servings": 2,
         "cooking_time": 15,
         "fav_count": 40}
@@ -82,13 +70,13 @@ def populate():
         r, created = Recipe.objects.get_or_create(title=recipe["title"],
                                       user_id=user_id,
                                       defaults={"meal_type":recipe["meal_type"],
-                                               "steps": recipe["steps"],
+                                               "step": recipe["step"],
                                                "servings": recipe["servings"],
                                                "cooking_time": recipe["cooking_time"],
                                                "fav_count": recipe["fav_count"]})
         if created:
             print(f"{r.title} => RECIPE created")
-            recipe_mapping[recipe["title"]] = r.id
+            recipe_mapping[recipe["title"]] = r.recipe_id
         else:
             print (f"{r.title} => RECIPE already exists")
 
@@ -174,6 +162,7 @@ def populate():
         else:
             print(f"=> RECIPEINGREDIENT already exists")
 
+    # Media
     media_data = [
         {"recipe": "Pancakes", "media_type": "IMAGE", "media_url": MEDIA_URL+"populationScript/PopulationScriptPancakes.jpg"},
         {"recipe": "Spaghetti Bolognese", "media_type": "IMAGE", "media_url": MEDIA_URL+"populationScript/PopulationScriptSpaghetti.jpg"},
@@ -189,6 +178,7 @@ def populate():
         else:
             print(f"{m.media_url} => already exists")
 
+    # Favourites
     favourite_data = [
         {"user": "JohnDoe123", "recipe": "Pancakes"},  
         {"user": "JohnDoe123", "recipe": "Spaghetti Bolognese"},  
@@ -206,26 +196,22 @@ def populate():
         else:
             print(f"=> FAVOURITE already exists")
 
+    # Comment
     comment_data = [
         {
-            "user": "JohnDoe123", "recipe": "Pancakes", "comment": "These pancakes are amazing! So fluffy and delicious.",
-            "recipe_rating": 5, "likes": 10, "date_time": "2024-03-15 08:30:00"
+            "user": "JohnDoe123", "recipe": "Pancakes", "comment": "These pancakes are amazing! So fluffy and delicious.", "date_time": "2024-03-15 08:30:00"
         },
         {
-            "user": "Marge1967", "recipe": "Pancakes", "comment": "Great recipe, but I added a bit more sugar for sweetness.",
-            "recipe_rating": 4, "likes": 5, "date_time": "2024-03-15 09:15:00"
+            "user": "Marge1967", "recipe": "Pancakes", "comment": "Great recipe, but I added a bit more sugar for sweetness.", "date_time": "2024-03-15 09:15:00"
         },
         {
-            "user": "JohnDoe123", "recipe": "Spaghetti Bolognese", "comment": "This spaghetti Bolognese was a hit with my family!",
-            "recipe_rating": 5, "likes": 8, "date_time": "2024-03-16 12:45:00"
+            "user": "JohnDoe123", "recipe": "Spaghetti Bolognese", "comment": "This spaghetti Bolognese was a hit with my family!", "date_time": "2024-03-16 12:45:00"
         },
         {
-            "user": "JohnDoe123", "recipe": "Chocolate Lava Cake", "comment": "Easy to make, but I would use fresh tomatoes next time.",
-            "recipe_rating": 4, "likes": 3, "date_time": "2024-03-17 14:10:00"
+            "user": "JohnDoe123", "recipe": "Chocolate Lava Cake", "comment": "Easy to make, but I would use fresh tomatoes next time.", "date_time": "2024-03-17 14:10:00"
         },
         {
-            "user": "Marge1967", "recipe": "Chocolate Lava Cake", "comment": "This lava cake is divine! Perfectly gooey in the center.",
-            "recipe_rating": 5, "likes": 12, "date_time": "2024-03-18 19:30:00"
+            "user": "Marge1967", "recipe": "Chocolate Lava Cake", "comment": "This lava cake is divine! Perfectly gooey in the center.", "date_time": "2024-03-18 19:30:00"
         }
     ]
 
@@ -235,14 +221,13 @@ def populate():
         c, created = Comment.objects.get_or_create(user_id=user_id, 
                                                    recipe_id=recipe_id,
                                                    defaults={"comment": comment["comment"],
-                                                             "recipe_rating": comment["recipe_rating"],
-                                                             "likes": comment["likes"],
-                                                             "date_time": datetime.strptime(comment["date_time"], "%Y-%m-%d %H:%M:%S")})
+                                                             "date": comment["date_time"]})
         if created:
             print(f"=> COMMENT created for user {comment['user']} and recipe {comment['recipe']}")
         else:
-            print(f"=> COMMENT already exists for user {comment["user"]} and recipe {comment['recipe']}")
+            print(f"=> COMMENT already exists for user {comment['user']} and recipe {comment['recipe']}")
 
+    # Tag
     tag_data = [
         {"name": "vegetarian", "user": "JohnDoe123"},
         {"name": "quick & easy", "user": "Marge1967"},
@@ -283,6 +268,7 @@ def populate():
         else:
             print(f"{t.name} => already exists")
 
+    # RecipeTag
     recipe_tag_data = [
         {"recipe": "Pancakes", "tag": "breakfast"},
         {"recipe": "Pancakes", "tag": "quick & easy"},
@@ -296,7 +282,7 @@ def populate():
         {"recipe": "Spaghetti Bolognese", "tag": "budget-friendly"},
         {"recipe": "Chocolate Lava Cake", "tag": "dessert"},  
         {"recipe": "Chocolate Lava Cake", "tag": "quick & easy"},
-        {"recipe": "Chocolate Lava Cake", "tag": "comfort food"}, 
+        {"recipe": "Chocolate Lava Cake", "tag": "family-friendly"}, 
         {"recipe": "Chocolate Lava Cake", "tag": "baking"},
     ]
 
@@ -310,8 +296,44 @@ def populate():
         else:
             print (f"=> RECIPETAG already exists for recipe {r.recipe_id} and tag {r.tag_id}")
 
+    # Rating
+    rating_data = [
+        {"user": "JohnDoe123", "recipe": "Pancakes", "rating": 5},
+        {"user": "JohnDoe123", "recipe": "Spaghetti Bolognese", "rating": 4},
+        {"user": "JohnDoe123", "recipe": "Chocolate Lava Cake", "rating": 5},
+        {"user": "Marge1967", "recipe": "Pancakes", "rating": 4},
+        {"user": "Marge1967", "recipe": "Spaghetti Bolognese", "rating": 5},
+        {"user": "Marge1967", "recipe": "Chocolate Lava Cake", "rating": 5},
+    ]
+
+    for rating in rating_data:
+        user_id = user_mapping[rating["user"]]
+        recipe_id = recipe_mapping[rating["recipe"]]
+        r, created = Rating.objects.get_or_create(user=User.objects.get(id=user_id), recipe=Recipe.objects.get(recipe_id=recipe_id), rating=rating["rating"])
+        
+        if created:
+            print(f"=> RATING from user {user_mapping[rating['user']]} to recipe {recipe_mapping[rating['recipe']]} created")
+        else:
+            print(f"=> RATING from user {user_mapping[rating['user']]} to recipe {recipe_mapping[rating['recipe']]} already exists")
+
+    # CommentLike
+    comment_likes_data = [
+        {"user": "JohnDoe123", "comment": Comment.objects.get(comment_id=1)},
+        {"user": "Marge1967", "comment": Comment.objects.get(comment_id=2)},
+        {"user": "JohnDoe123", "comment": Comment.objects.get(comment_id=3)}
+    ]
+
+    for comment_like in comment_likes_data:
+        user_id = user_mapping[comment_like["user"]]
+        c, created = CommentLike.objects.get_or_create(user=User.objects.get(id=user_id), comment=comment_like["comment"])
+
+        if created:
+            print(f"=> COMMENTLIKE from user {user_id} to {comment_like['comment']} created")
+        else:
+            print(f"=> COMMENTLIKE from user {user_id} to {comment_like['comment']} already exists")
+
 
 if __name__ == '__main__':
     print("Starting Scrandemonium Population Script...")
     populate()
-    print("Population Complete.")
+    print("==========\nPopulation Complete.\n==========")

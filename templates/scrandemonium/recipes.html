@@ -1,0 +1,37 @@
+{% extends 'scrandemonium/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {{ MealType }} Recipes
+{% endblock %}
+
+{% block body_block %}
+    <h1>{{ MealType }} Recipes</h1>
+
+    <section id="{{ MealType }}">
+        <p>{{ MealType }}'s description</p>
+        <img src="" alt="MealType Photo" />
+    </section>
+
+    <section id="search-bar">
+    </section>
+
+    iterative
+    decorator
+    
+    <!-- Recipes List -->
+    <section id="recipes-list">
+        <h2>{{ MealType }}'s Recipes</h2>
+        <table>
+            <tr>
+                <th>Recipes</th>
+            </tr>
+            {% for recipe in recipes.recipe %}
+            <tr>
+                <td>{{ recipe.title }}</td>
+                <td>{{ recipe.user }}</td>
+                <td>{{ recipe.ratingAvg }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>

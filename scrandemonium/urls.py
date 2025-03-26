@@ -10,9 +10,9 @@ urlpatterns = [
     path('recipes/<str:meal_type>/', views.recipes, name='recipes_by_category'),
     path('recipes/<int:recipe_id>/', views.recipe, name='recipe_page'),
     path('recipes/<int:recipe_id>/review/', views.review_recipe, name='review_recipe'),
-    path('login/', views.login, name='login'),
-    path('login/profile/<int:user_id>/', views.profile, name='profile'),
-    path('login/addRecipe/', views.add_recipe, name='add_recipe'),
+    path('login/', views.user_login, name='login'),
+    path('login/profile/', views.my_profile, name='my_profile'),
+    path('login/add_recipe/', views.add_recipe, name='add_recipe'),
     path('about/', views.about, name='about'),
     path('logout/', views.logout_user, name='logout'),
  ]

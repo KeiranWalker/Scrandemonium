@@ -67,18 +67,28 @@ def populate():
 
     for recipe in recipe_data:
         user_id = user_mapping.get(recipe["user"])
-        r, created = Recipe.objects.get_or_create(title=recipe["title"],
-                                      user_id=user_id,
-                                      defaults={"meal_type":recipe["meal_type"],
-                                               "step": recipe["step"],
-                                               "servings": recipe["servings"],
-                                               "cooking_time": recipe["cooking_time"],
-                                               "fav_count": recipe["fav_count"]})
+        user = User.objects.get(id=user_id)
+        
+        r, created = Recipe.objects.get_or_create(
+            title=recipe["title"],
+            user=user,
+            defaults={
+                "meal_type": recipe["meal_type"],
+                "step": recipe["step"],
+                "servings": recipe["servings"],
+                "cooking_time": recipe["cooking_time"],
+                "fav_count": recipe["fav_count"]
+            }
+        )
+
         if created:
+            r.save()
             print(f"{r.title} => RECIPE created")
             recipe_mapping[recipe["title"]] = r.recipe_id
         else:
-            print (f"{r.title} => RECIPE already exists")
+            print(f"{r.title} => RECIPE already exists")
+
+
 
     # Ingredient
     ingredient_data = [
@@ -122,6 +132,7 @@ def populate():
         i, created = Ingredient.objects.get_or_create(name=ingredient["name"])
         
         if created:
+            i.save()
             print(f"{i.name} => INGREDIENT created")
             ingredient_mapping[ingredient["name"]] = i.id
         else:
@@ -260,13 +271,20 @@ def populate():
 
     for tag in tag_data:
         user_id = user_mapping[tag["user"]]
-        t, created = Tag.objects.get_or_create(name=tag["name"],
-                                               defaults={"user_id": user_id})
+        user = User.objects.get(id=user_id)
+        
+        t, created = Tag.objects.get_or_create(
+            name=tag["name"],
+            defaults={"user": user}
+        )
+
         if created:
+            t.save()
             print(f"{t.name} => TAG created")
             tag_mapping[tag["name"]] = t.id
         else:
-            print(f"{t.name} => already exists")
+            print(f"{t.name} => TAG already exists")
+
 
     # RecipeTag
     recipe_tag_data = [

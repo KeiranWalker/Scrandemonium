@@ -26,7 +26,7 @@
             <tr>
                 <th>Recipes</th>
             </tr>
-            {% for recipe in recipes.recipe %}
+            {% for recipe in recipes %} <!-- you weren't looping over the list, but recipes.recipe -->>
             <tr>
                 <td>{{ recipe.title }}</td>
                 <td>{{ recipe.user }}</td>

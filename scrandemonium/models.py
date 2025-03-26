@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.conf import settings
+from django.utils.text import slugify
 
 # -- RECIPE --
 class Recipe(models.Model):
@@ -15,11 +16,23 @@ class Recipe(models.Model):
     recipe_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipes')
     title = models.CharField(max_length=32)
+    slug = models.SlugField(unique=True, blank=True)
     step = models.TextField(max_length=5000)
     meal_type = models.CharField(max_length=10, choices=MEAL_TYPES)
     servings = models.PositiveIntegerField(null=True, blank=True)
     cooking_time = models.PositiveIntegerField(null=True, blank=True)
     fav_count = models.PositiveIntegerField(default=0)  # Optional, can also be calculated
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug #for additional numbering
+            num = 1
+            while Recipe.objects.filter(slug=slug).exists(): #there
+                slug = f"{base_slug}-{num}"
+                num += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -76,7 +89,19 @@ class Favourite(models.Model):
 # -- TAG --
 class Tag(models.Model):
     name = models.CharField(max_length=16, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_tags')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            num = 1
+            while Tag.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{num}"
+                num += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -93,7 +118,19 @@ class RecipeTag(models.Model):
 # -- INGREDIENT --
 class Ingredient(models.Model):
     name = models.CharField(max_length=32, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            num = 1
+            while Ingredient.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{num}"
+                num += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+    
     def __str__(self):
         return self.name
 

@@ -22,14 +22,8 @@ from scrandemonium import views
 app_name = 'scrandemonium'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('register/', views.register, name='register'),
-    path('recipes/<str:meal_type>/', views.recipes_by_category, name='recipes_by_category'),
-    path('recipes/<int:recipe_id>/', views.recipe_page, name='recipe_page'),
-    path('recipes/<int:recipe_id>/review/', views.review_recipe, name='review_recipe'),
-    path('login/', views.user_login, name='login'),
-    path('login/profile/<int:user_id>/', views.profile, name='profile'),
-    path('login/addRecipe/', views.add_recipe, name='add_recipe'),
-    path('about/', views.about, name='about'),
- ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('rango/', include('rango.urls')),
+    # The above maps any URLs starting with rango/ to be handled by rango.
+    path('admin/', admin.site.urls),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

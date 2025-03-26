@@ -1,0 +1,105 @@
+/* static/css/styles.css */
+body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row; 
+}
+
+.header-bar{
+    background: white;
+    color: black;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 0;
+}
+
+.header, .search {
+    background: none;
+    padding: 0;
+}
+/* Navigation Bar - Full width below header */
+/* Navigation Bar - Full width below header */
+.navigation {
+    background: #68d1e7;  /* Same color as sidebar */
+    color: white;
+    width: 100%;
+    padding: 20px 0;
+    position: sticky;
+    top: 0; /* Ensure it stays at the top */
+    text-align: center;
+    z-index: 10; /* Added z-index to stay on top */
+}
+
+.navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.navigation ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+}
+
+.navigation ul li a:hover {
+    background: #5dbccf;
+    border-radius: 5px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 100px;
+    background: #68d1e7; /* Dark background for contrast */
+    color: white;
+    height: 100vh;
+    padding: 20px;
+    position: sticky;
+    top: 40px; /* Adjust for header space */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.sidebar ul li a:hover {
+    background: #5dbccf; /* Slight highlight effect */
+}
+
+/* Adjust Main Content */
+.main {
+    margin-left: 120px; 
+    padding: 20px;
+    flex-grow: 1;
+    overflow: auto; 
+    height: 100%; 
+}
+
+.container {
+    display: flex;
+    flex-grow: 1; 
+}

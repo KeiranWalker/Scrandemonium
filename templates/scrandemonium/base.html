@@ -12,46 +12,58 @@
                 Scrandemonium
             {% endblock %}
         </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/baseStyles.css' %}">
 
     </head>
 
     <body>
 
-        <!--Header - Title and Search Bar-->
-        <div>
-            <h1>Scrandemonium</h1>
-            <input type="text" placeholder="Search..." />
+        <!--Header - Title and Search Bar - restructured for css-->
+        <div class="header-bar">
+            <div class="header">
+                <h1>Scrandemonium</h1>
+            </div>
+
+            <div class="search">
+                <input type="text" placeholder="Search..." />
+            </div>
+        </div>
+        <!--Nav Bar - restructured for css-->
+        <div class="navigation">
+            <nav>
+                <ul>
+                    <li><a href="{% url 'scrandemonium:about' %}">About</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="">Profile</a></li>
+                        <li><a href="{% url 'scrandemonium:add_recipe' %}">Add Recipe</a></li>
+                        <li><a href="{% url 'scrandemonium:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'scrandemonium:register' %}">Register</a></li>
+                        <li><a href="{% url 'scrandemonium:login' %}">Login</a></li>
+                    {% endif %}         <!--Added endif -->>
+                </ul>
+            </nav>
         </div>
 
-        <!--Nav Bar-->
-        <nav>
-            <ul>
-                <li><a href="">About</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="">Profile</a></li>
-                    <li><a href="">Add Recipe</a></li>
-                    <li><a href="">Logout</a></li>
-                {% else %}
-                    <li><a href="">Register</a></li>
-                    <li><a href="">Login</a></li>
-            </ul>
+        <div class="container">
+            <!--Sidebar - restructured for css-->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='breakfast'%}">Breakfast</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='lunch'%}">Lunch</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='dinner'%}">Diner</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='Dessert'%}">Dessert</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='Baking'%}">Baking</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' meal_type='Snacks'%}">Snacks</a></li>
+                </ul>
+            </div>
 
-        </nav>
-
-        {% block body_block %}
-            This is body_block default - please override me
-        (% endblock %)
-
-        <!--Sidebar-->
-        <div>
-            <ul>
-                <li><a href="">Breakfast</a></li>
-                <li><a href="">Lunch</a></li>
-                <li><a href="">Diner</a></li>
-                <li><a href="">Dessert</a></li>
-                <li><a href="">Baking</a></li>
-                <li><a href="">Snacks</a></li>
-            </ul>
+            <!--Main Block - restructured for css-->>
+            <div class = "main">
+                {% block body_block %}
+                This is body_block default - please override me
+                {% endblock %}      <!--Readded as it gave error that it wasnt there? -->>
+            </div>
         </div>
 
     </body>

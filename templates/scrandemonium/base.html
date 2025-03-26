@@ -19,28 +19,29 @@
 
         <!--Header - Title and Search Bar-->
         <div>
-            <h1>Scrandemonium</h1>
+            <img src="{% static 'scran_logo.jpg' %}" />
             <input type="text" placeholder="Search..." />
         </div>
 
         <!--Nav Bar-->
         <nav>
             <ul>
-                <li><a href="">About</a></li>
+                <li><a href="{% url 'scrandemonium:about' %}">About</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="">Profile</a></li>
-                    <li><a href="">Add Recipe</a></li>
+                    <li><a href="{% url 'scrandemonium:add_recipe' %}">Add Recipe</a></li>
                     <li><a href="">Logout</a></li>
                 {% else %}
                     <li><a href="">Register</a></li>
                     <li><a href="">Login</a></li>
+                {% endif %}
             </ul>
 
         </nav>
 
         {% block body_block %}
             This is body_block default - please override me
-        (% endblock %)
+        {% endblock %}
 
         <!--Sidebar-->
         <div>

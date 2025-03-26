@@ -19,38 +19,39 @@
 
         <!--Header - Title and Search Bar-->
         <div>
-            <h1>Scrandemonium</h1>
+            <img src="{% static 'scran_logo.jpg' %}" />
             <input type="text" placeholder="Search..." />
         </div>
 
         <!--Nav Bar-->
         <nav>
             <ul>
-                <li><a href="">About</a></li>
+                <li><a href="{% url 'scrandemonium:about' %}">About</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="">Profile</a></li>
-                    <li><a href="">Add Recipe</a></li>
-                    <li><a href="">Logout</a></li>
+                    <li><a href="{% url 'scrandemonium:my_profile' %}">Profile</a></li>
+                    <li><a href="{% url 'scrandemonium:add_recipe' %}">Add Recipe</a></li>
+                    <li><a href="{% url 'scrandemonium:logout' %}">Logout</a></li>
                 {% else %}
-                    <li><a href="">Register</a></li>
-                    <li><a href="">Login</a></li>
+                    <li><a href="{% url 'scrandemonium:register' %}">Register</a></li>
+                    <li><a href="{% url 'scrandemonium:login' %}">Login</a></li>
+                {% endif %}
             </ul>
 
         </nav>
 
         {% block body_block %}
             This is body_block default - please override me
-        (% endblock %)
+        {% endblock %}
 
         <!--Sidebar-->
         <div>
             <ul>
-                <li><a href="">Breakfast</a></li>
-                <li><a href="">Lunch</a></li>
-                <li><a href="">Diner</a></li>
-                <li><a href="">Dessert</a></li>
-                <li><a href="">Baking</a></li>
-                <li><a href="">Snacks</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Breakfast' %}">Breakfast</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Lunch' %}">Lunch</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dinner' %}">Diner</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dessert' %}">Dessert</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Baking' %}">Baking</a></li>
+                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Snacks' %}">Snacks</a></li>
             </ul>
         </div>
 

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient
+from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, User
 from django.db.models import Avg
 from .forms import CustomUserCreationForm, ProfileForm, AddRecipeForm, LoginForm, ReviewForm
 
@@ -19,7 +19,7 @@ def index(request):
     })
 
 # LOGIN PAGE
-def login(request):
+def user_login(request):
     form = LoginForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -29,7 +29,7 @@ def login(request):
 
         if user:
             auth_login(request, user)
-            return redirect('index')
+            return redirect('scrandemonium:index')
         else:
             form.add_error(None, "Invalid username or password")
 
@@ -46,7 +46,7 @@ def add_recipe(request):
             return redirect('recipe_page', recipe_id=recipe.id)
     else:
         form = AddRecipeForm()
-    return render(request, 'scrandemonium/addRecipe.html', {'form': form})
+    return render(request, 'scrandemonium/add_recipe.html', {'form': form})
 
 # RECIPE PAGE
 def recipe(request, recipe_id):
@@ -132,11 +132,11 @@ def review_recipe(request, recipe_id):
 @login_required
 def logout_user(request):
     auth_logout(request)
-    return redirect(reverse('scandemonium:index'))
+    return redirect(reverse('scrandemonium:index'))
 
 # PROFILE PAGE
 @login_required
-def profile(request):
+def my_profile(request):
     user_recipes = request.user.recipes.all()
     user_favourites = Favourite.objects.filter(user=request.user)
     user_comments = Comment.objects.filter(user=request.user)

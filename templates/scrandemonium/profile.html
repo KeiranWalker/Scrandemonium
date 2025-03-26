@@ -36,7 +36,7 @@
             <tr>
                 <th>Recipes</th>
             </tr>
-            {% for recipe in user.recipes %}
+            {% for recipe in user.user_recipes %}
             <tr>
                 <td>{{ recipe.title }}</td>
                 <td>{{ recipe.mealType }}</td>
@@ -53,11 +53,11 @@
             <tr>
                 <th>Reviews</th>
             </tr>
-            {% for recipe in user.recipes %}
+            {% for comment in user.user_comments %}
             <tr>
-                <td>{{ recipe.title }}</td>
-                <td>{{ recipe.favourite.userID.username }}</td>
-                <td>{{ recipe.favourite.userID.recipeRating }}</td>
+                <td>{{ comment.recipe }}</td>
+                <td>{{ comment.comment }}</td>
+                <td>{{ comment.date }}</td>
             </tr>
             {% endfor %}
         </table>

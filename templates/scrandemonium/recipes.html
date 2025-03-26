@@ -16,9 +16,6 @@
     <section id="search-bar">
     </section>
 
-    iterative
-    decorator
-    
     <!-- Recipes List -->
     <section id="recipes-list">
         <h2>{{ MealType }}'s Recipes</h2>
@@ -26,7 +23,7 @@
             <tr>
                 <th>Recipes</th>
             </tr>
-            {% for recipe in recipes %} <!-- you weren't looping over the list, but recipes.recipe -->>
+            {% for recipe in recipes %} <!-- you weren't looping over the list, but recipes.recipe -->
             <tr>
                 <td>{{ recipe.title }}</td>
                 <td>{{ recipe.user }}</td>
@@ -35,3 +32,4 @@
             {% endfor %}
         </table>
     </section>
+{% endblock %}

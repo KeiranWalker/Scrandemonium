@@ -12,13 +12,14 @@
                 Scrandemonium
             {% endblock %}
         </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 
     </head>
 
     <body>
 
         <!--Header - Title and Search Bar-->
-        <div>
+        <div class="header-bar">
             <img src="{% static 'scran_logo.jpg' %}" />
             <input type="text" placeholder="Search..." />
         </div>
@@ -36,24 +37,28 @@
                     <li><a href="{% url 'scrandemonium:login' %}">Login</a></li>
                 {% endif %}
             </ul>
-
         </nav>
 
-        {% block body_block %}
-            This is body_block default - please override me
-        {% endblock %}
-
-        <!--Sidebar-->
-        <div>
-            <ul>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Breakfast' %}">Breakfast</a></li>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Lunch' %}">Lunch</a></li>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dinner' %}">Diner</a></li>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dessert' %}">Dessert</a></li>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Baking' %}">Baking</a></li>
-                <li><a href="{% url 'scrandemonium:recipes_by_category' 'Snacks' %}">Snacks</a></li>
-            </ul>
+        <div class="container"><!--Sidebar-->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Breakfast' %}">Breakfast</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Lunch' %}">Lunch</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dinner' %}">Diner</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Dessert' %}">Dessert</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Baking' %}">Baking</a></li>
+                    <li><a href="{% url 'scrandemonium:recipes_by_category' 'Snacks' %}">Snacks</a></li>
+                </ul>
+            </div>
+    
+            <div class="main">
+                {% block body_block %}
+                This is body_block default - please override me
+                {% endblock %}
+            </div>
         </div>
+        
+
 
     </body>
 

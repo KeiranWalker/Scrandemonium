@@ -7,34 +7,35 @@
 
 {% block body_block %}
 
-    <div>
-        <h1>Welcome to Scrandemonium</h1>
-        <p>This is website bio...</p>
+<div class="index-main-grid">
+    <div class="index-main">
+        <div class ="bio">
+            <h1>Welcome to Scrandemonium</h1>
+            <p>This is website bio...</p>
+        </div>
+
+        <div class="index-grid">
+            <div class = "box newest">
+                <h2>Newest Dishes</h2>
+                <ul id="newest-recipes-list">
+                    <li>Loading Newest Recipes...</li>
+                  </ul>
+            </div>
+        
+            <div class = "box best">
+                <h2>Best Rated Recipes</h2>
+                <ul id="best-rated-recipes-list">
+                    <li>Loading Best Rated Recipes...</li>
+                  </ul>
+            </div>
+        </div>
     </div>
 
-    <div>
+    <div class="photos">
+        <img src="" alt="food photos?" />
+        <img src="" alt="food photos?" />
         <img src="" alt="food photos?" />
     </div>
 
-    <div>
-        <img src="" alt="food photos?" />
-    </div>
-
-    <div>
-        <img src="" alt="food photos?" />
-    </div>
-
-    <div>
-        <h2>Newest Dishes</h2>
-        <ul id="newest-recipes-list">
-            <li>Loading newest recipes...</li>
-          </ul>
-    </div>
-
-    <div>
-        <h2>Best Rated Recipes</h2>
-        <ul id="best-rated-recipes-list">
-            <li>Loading newest recipes...</li>
-          </ul>
-    </div>
+</div>
 {% endblock %}

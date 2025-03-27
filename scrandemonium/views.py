@@ -47,7 +47,8 @@ def add_recipe(request):
             return redirect('recipe_page', recipe_id=recipe.id)
     else:
         form = AddRecipeForm()
-    return render(request, 'scrandemonium/add_recipe.html', {'form': form})
+        ingredients = Ingredient.objects.all()
+    return render(request, 'scrandemonium/add_recipe.html', {'form': form, 'ingredients': ingredients})
 
 # RECIPE PAGE
 def recipe(request, recipe_id):

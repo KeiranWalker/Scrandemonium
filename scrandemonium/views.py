@@ -205,7 +205,7 @@ def review_recipe(request, recipe_id):
                 recipe=recipe,
                 defaults={'rating': form.cleaned_data['rating']}
             )
-            return redirect('recipe_page', recipe_id=recipe.id)
+            return redirect('scrandemonium:recipe_page', recipe_id=recipe.recipe_id)
     else:
         form = ReviewForm()
 

@@ -1,5 +1,5 @@
 {% extends 'scrandemonium/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block title_block %}
     Add a Recipe
@@ -7,93 +7,140 @@
 
 {% block body_block %}
 
-    <div>
-        <h1>Add a recipe</h1>
-    </div>
+<h1>Add a Recipe</h1>
 
-    <div>
-        <form id="add_recipe_form" method="post">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
 
-          {% csrf_token %}
-      
-          <!-- Dish Name -->
-          <section id="dish-name">
-            <label for="dish-name">Dish Name:</label>
-            <input type="text" id="dish-name" name="dish_name" required>
-          </section>
+    <!-- INGREDIENTS -->
+    <label for="ingredient-select">Ingredients:</label>
+    <select id="ingredient-select" multiple="multiple" style="width: 100%;">
+        {% for ingredient in all_ingredients %}
+            <option value="{{ ingredient.name }}">{{ ingredient.name }}</option>
+        {% endfor %}
+    </select>
+    <div id="ingredient-list" class="mt-2"></div>
+    <br>
 
-          <br />
-      
-          <!-- Recipe Picture -->
-          <section id="recipe-picture">
-            <label for="recipe-picture">Upload a Picture:</label>
-            <input type="file" id="recipe-picture" name="recipe_picture" accept="image/*" required>
-          </section>
+    <!-- TAGS -->
+    <label for="tag-select">Tags:</label>
+    <select id="tag-select" name="tags" multiple="multiple" style="width: 100%;">
+        {% for tag in all_tags %}
+            <option value="{{ tag.name }}">{{ tag.name }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
 
-          <br />
-      
-          <!-- Optional Video -->
-          <section id="recipe-video">
-            <label for="recipe-video">Optional Video:</label>
-            <input type="file" id="recipe-video" name="recipe_video">
-          </section>
+    <!-- STEPS -->
+    <label for="step-input">Steps:</label>
+    <input type="text" id="step-input" placeholder="Type a step and press Enter" style="width: 100%; max-width: 600px;">
+    <ol id="steps-list"></ol>
+    <input type="hidden" name="step" id="step-hidden">
+    <br>
 
-          <br />
-      
-          <!-- Ingredients -->
-          <section id="ingredients">
-            <label for="ingredient">Ingredients:</label>
-              <select id="add_ingredient" required multiple>
-              {% for ingredient in ingredients %}
-                <option value="{{ ingredient }}">{{ ingredient }}</option>
-              {% endfor %}
-              </select>
-          </section>
-          <br />
+    <!-- IMAGE -->
+    <label for="recipe_picture_file">Upload Image:</label>
+    <input type="file" name="recipe_picture_file" accept="image/*">
+    <br><br>
 
-          <br />
-      
-          <!-- Steps -->
-          <section id="steps">
-            <label for="steps">Steps:</label>
-            <textarea id="steps" name="steps" rows="5" placeholder="Enter cooking steps..." required></textarea>
-          </section>
+    <!-- VIDEO -->
+    <label for="recipe_video_file">Upload Video:</label>
+    <input type="file" name="recipe_video_file" accept="video/*">
+    <br><br>
 
-          <br />
-      
-          <!-- Tags -->
-          <section id="tags">
-            <label for="tags">Tags:</label>
-            <input type="text" id="tags" name="tags" placeholder="e.g., vegetarian, gluten-free">
-          </section>
+    <!-- SUBMIT -->
+    <button type="submit">Post Recipe</button>
+</form>
 
-          <br />
-      
-          <!-- Category Dropdown -->
-          <section id="category">
-            <label for="category">Category:</label>
-            <select id="category" name="category" required>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Diner">Diner</option>
-              <option value="Dessert">Dessert</option>
-              <option value="Dessert">Baking</option>
-              <option value="Dessert">Snack</option>
-            </select>
-          </section>
+<!-- JS + Select2 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-          <br />
-      
-          <!-- Servings -->
-          <section id="servings">
-            <label for="servings">Servings:</label>
-            <input type="number" id="servings" name="servings" min="1" required>
-          </section>
+<script>
+  $(document).ready(function () {
+    const selectedIngredients = new Set();
+    const steps = [];
 
-          <br />
-      
-          <!-- Submit Button -->
-          <button type="submit" name="submit">Post Recipe</button>
-    </div>
+    // INGREDIENT SELECT2
+    $('#ingredient-select').select2({
+      tags: true,
+      placeholder: 'Select or add ingredients',
+      width: '100%',
+    });
+
+    $('#ingredient-select').on('select2:select', function (e) {
+      const name = e.params.data.text;
+      if (!selectedIngredients.has(name)) {
+        selectedIngredients.add(name);
+        const html = `
+          <div class="ingredient-entry" data-name="${name}">
+            <input type="hidden" name="ingredients" value="${name}">
+            <label>${name}:</label>
+            <input type="text" name="quantity_${name}" placeholder="e.g., 2 cups" required>
+          </div>
+        `;
+        $('#ingredient-list').append(html);
+      }
+    });
+
+    $('#ingredient-select').on('select2:unselect', function (e) {
+      const name = e.params.data.text;
+      selectedIngredients.delete(name);
+      $(`.ingredient-entry[data-name="${name}"]`).remove();
+    });
+
+    // TAG SELECT2
+    $('#tag-select').select2({
+      tags: true,
+      placeholder: "Select or add tags",
+      width: '100%',
+    });
+
+    // STEPS
+    const stepInput = document.getElementById('step-input');
+    const stepList = document.getElementById('steps-list');
+    const stepHidden = document.getElementById('step-hidden');
+
+    function updateStepsHidden() {
+      stepHidden.value = steps.join(';');
+    }
+
+    function renderSteps() {
+      stepList.innerHTML = '';
+      steps.forEach((step, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          ${step}
+          <button type="button" class="delete-step" data-index="${index}">❌</button>
+        `;
+        stepList.appendChild(li);
+      });
+      updateStepsHidden();
+    }
+
+    stepInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const step = stepInput.value.trim();
+        if (step) {
+          steps.push(step);
+          stepInput.value = '';
+          renderSteps();
+        }
+      }
+    });
+
+    stepList.addEventListener('click', function (e) {
+      if (e.target.classList.contains('delete-step')) {
+        const index = parseInt(e.target.dataset.index);
+        steps.splice(index, 1);
+        renderSteps();
+      }
+    });
+  });
+</script>
 
 {% endblock %}
+

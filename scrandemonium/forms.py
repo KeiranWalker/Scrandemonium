@@ -1,13 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Recipe, User
+from django.forms import modelformset_factory
+from .models import Recipe, User, Tag, RecipeIngredient
 
 # -- ADD RECIPE --
 class AddRecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'meal_type', 'step', 'servings', 'cooking_time']
+        fields = ['title', 'meal_type', 'servings', 'cooking_time']
 
 # -- USER/PROFILE --
 class CustomUserCreationForm(UserCreationForm):

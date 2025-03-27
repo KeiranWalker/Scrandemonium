@@ -8,9 +8,11 @@
 {% block body_block %}
 
     <div class="container">
-        <div class="bio text">
-            <h1>{{ MealType }} Recipes</h1>
-            <p>{{ description }}</p>
+        <div class="bio">
+            <div class="bio text">
+                <h1>{{ MealType }} Recipes</h1>
+                <p>{{ description }}</p>
+            </div>
         </div>
 
         <div class="photos">
@@ -18,23 +20,38 @@
         </div>
     </div>
 
-    <section id="search-bar">
-    </section>
-
     <!-- Recipes List -->
-    <section id="recipes-list">
+    <div class="box">
         <h2>{{ MealType }}'s Recipes</h2>
-        <table>
-            <tr>
-                <th>Recipes</th>
-            </tr>
-            {% for recipe in recipes %} <!-- you weren't looping over the list, but recipes.recipe -->
-            <tr>
-                <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
-                <td>{{ recipe.user }}</td>
-                <td>{{ recipe.ratingAvg }}</td>
-            </tr>
-            {% endfor %}
+        <div class="index-grid">
+            <div class="search-bar-recipes">
+                <form action="">
+                    <input type="text" placeholder="Search..." />
+                </form>
+            </div>
+            <div class="filter">
+                <a href="{% url 'scrandemonium:index' %}">
+                    <img src="{% static 'filter_icon.jpg' %}" alt="Scran Logo" />
+                </a>
+            </div>
+        </div>
+        <table class="recipe-table">
+            <thead>
+                <tr>
+                    <th>Recipes</th>
+                    <th>User</th>
+                    <th>Average Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recipe in recipes %}
+                <tr>
+                    <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
+                    <td>{{ recipe.user }}</td>
+                    <td>{{ recipe.ratingAvg }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-    </section>
+    </div>
 {% endblock %}

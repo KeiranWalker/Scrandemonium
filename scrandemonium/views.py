@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, User
+from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, RecipeTag, Tag
 from django.db.models import Avg
 from .forms import CustomUserCreationForm, ProfileForm, AddRecipeForm, LoginForm, ReviewForm
 from django.templatetags.static import static
+from django.core.files.storage import FileSystemStorage
 
 #from forms import AddRecipeForm  # Ozi needs to create this
 
@@ -41,14 +42,58 @@ def user_login(request):
 @login_required
 def add_recipe(request):
     if request.method == 'POST':
-        form = AddRecipeForm(request.POST, request.FILES, user=request.user)
+        form = AddRecipeForm(request.POST)
         if form.is_valid():
-            recipe = form.save()
-            return redirect('recipe_page', recipe_id=recipe.id)
+            recipe = form.save(commit=False)
+            recipe.user = request.user
+            recipe.step = request.POST.get('step')
+            recipe.save()
+
+            # Tags (create if new)
+            tag_names = request.POST.getlist('tags')
+            for name in tag_names:
+                name = name.strip()
+                if name:
+                    tag, _ = Tag.objects.get_or_create(name__iexact=name, defaults={'name': name, 'user': request.user})
+                    RecipeTag.objects.get_or_create(recipe=recipe, tag=tag)
+
+            # Ingredients (create if new) + quantity
+            ingredient_names = request.POST.getlist('ingredients')
+            for name in ingredient_names:
+                name = name.strip()
+                quantity = request.POST.get(f'quantity_{name}', '').strip()
+                if name and quantity:
+                    ingredient, _ = Ingredient.objects.get_or_create(name__iexact=name, defaults={'name': name})
+                    RecipeIngredient.objects.create(recipe=recipe, ingredient=ingredient, quantity=quantity)
+
+            # MEDIA: Handle file uploads (IMAGE + VIDEO)
+            image_file = request.FILES.get('recipe_picture_file')
+            if image_file:
+                fs = FileSystemStorage()
+                filename = fs.save(f"recipe_pictures/{image_file.name}", image_file)
+                image_url = fs.url(filename)
+                Media.objects.create(recipe=recipe, media_type='IMAGE', media_url=image_url)
+
+            video_file = request.FILES.get('recipe_video_file')
+            if video_file:
+                fs = FileSystemStorage()
+                filename = fs.save(f"recipe_videos/{video_file.name}", video_file)
+                video_url = fs.url(filename)
+                Media.objects.create(recipe=recipe, media_type='VIDEO', media_url=video_url)
+
+            return redirect('scrandemonium:recipe_page', recipe_id=recipe.recipe_id)
     else:
         form = AddRecipeForm()
-        ingredients = Ingredient.objects.all()
-    return render(request, 'scrandemonium/add_recipe.html', {'form': form, 'ingredients': ingredients})
+
+    # Used for populating dropdowns
+    all_ingredients = Ingredient.objects.all()
+    all_tags = Tag.objects.all()
+
+    return render(request, 'scrandemonium/add_recipe.html', {
+        'form': form,
+        'all_ingredients': all_ingredients,
+        'all_tags': all_tags,
+    })
 
 # RECIPE PAGE
 def recipe(request, recipe_id):

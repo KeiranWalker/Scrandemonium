@@ -6,18 +6,20 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>
-        Register with Scrandemonium
-    </h1>
+    <div class="bio">
+        <h1>
+            Register with Scrandemonium
+        </h1>
+    
+        {% if registered %}
+            Thank you for registering with us.  Enjoy your stay!
+            <a href="{% url 'scrandemonium:index' %}">Return to our homepage to continue searching!</a>
+        {% else %}
+    
+        Enter you details below
+    </div>
 
-    {% if registered %}
-        Thank you for registering with us.  Enjoy your stay!
-        <a href="{% url 'scrandemonium:index' %}">Return to our homepage to continue searching!</a>
-    {% else %}
-
-    Enter you details below
-
-    <form id="user_form" method="post" action="" enctype="multipart/form-data">
+    <form id="user_form" class="register" method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
         {{ user_form.as_p }}

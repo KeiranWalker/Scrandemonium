@@ -54,7 +54,7 @@ def populate():
         "cooking_time": 40,
         "fav_count": 32},
 
-        {"meal_type": "Dessert",
+        {"meal_type": "Desser",
         "user": "JohnDoe123",
         "title": "Chocolate Lava Cake",
         "step": "Preheat oven to 220°C; Melt chocolate and butter together; Beat eggs and sugar until fluffy; Fold in melted chocolate; Pour batter into greased ramekins; Bake for 12 minutes until edges are set but center is gooey; Serve immediately",

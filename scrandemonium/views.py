@@ -174,3 +174,15 @@ def my_profile(request):
 # ABOUT PAGE
 def about(request):
     return render(request, 'scrandemonium/about.html')
+
+# Other User Profile Page
+def other_profile(request, id):
+    other_user = User.objects.get(id=id)
+    other_user_recipes = Recipe.objects.filter(user=other_user)
+    other_user_favourites = Favourite.objects.filter(user=other_user)
+    other_user_ratings = Rating.objects.filter(user=other_user)
+
+    return render(request, 'scrandemonium/other_profile.html',{"other_user": other_user,
+                            "other_user_recipes": other_user_recipes,
+                            "other_user_favourites": other_user_favourites,
+                            "other_user_ratings": other_user_ratings})

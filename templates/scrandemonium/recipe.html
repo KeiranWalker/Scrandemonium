@@ -9,7 +9,7 @@
 
     <div>
         <h1>{{ recipe.title }}</h1>
-        <p><strong>Uploaded by: {{ recipe.user.username }}</strong> </p>
+        <p><strong>Uploaded by: <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user.username }}</a></strong> </p>
         <p><strong>Rating: {{ avg_rating }}</strong> </p>
         <p><strong>Servings: {{ recipe.servings }}</strong> </p>
         <p><strong>Time to make: {{ recipe.cooking_time }} mins</strong> </p>

@@ -11,21 +11,25 @@
     <div class="index-main">
         <div class ="bio text">
             <h1>Welcome to Scrandemonium</h1>
-            <p>This is website bio...</p>
+            <p>Welcome to Scrandemonium!  This is a place of crazy creations, scrumptious sandwiches, and fantastic food stuffs. So why dont you stay a little.  Try something new?  Share some of your own concoctions?  No matte what, we are happy you chose to spend you time here.</p>
         </div>
 
         <div class="index-grid">
-            <div class = "box newest">
+            <div class = "box newest"> 
                 <h2>Newest Dishes</h2>
                 <ul id="newest-recipes-list">
-                    <li>Loading Newest Recipes...</li>
+                    {% for recipe in newest_recipes %}
+                        <li>{{ recipe.title }} -- {{ recipe.user }}</li>
+                    {% endfor %}
                   </ul>
             </div>
         
             <div class = "box best">
                 <h2>Best Rated Recipes</h2>
                 <ul id="best-rated-recipes-list">
-                    <li>Loading Best Rated Recipes...</li>
+                    {% for recipe in best_rated %}
+                        <li>{{ recipe.title }} -- {{ recipe.user }}</li>
+                    {% endfor %}
                   </ul>
             </div>
         </div>

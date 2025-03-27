@@ -11,7 +11,7 @@ from django.templatetags.static import static
 
 # INDEX PAGE
 def index(request):
-    newest_recipes = Recipe.objects.order_by('-id')[:5]
+    newest_recipes = Recipe.objects.order_by('-recipe_id')[:5]
     best_rated = Recipe.objects.annotate(avg_rating=Avg('ratings__rating')).order_by('-avg_rating')[:5]
 
     return render(request, 'scrandemonium/index.html', {

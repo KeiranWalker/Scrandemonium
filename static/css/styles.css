@@ -149,6 +149,7 @@ nav ul li a:hover {
     margin-bottom: 20px;
     text-align: center;
     align-content: center;
+    position: relative;
 }
 
 /* Grid Layout for Newest & Best */
@@ -253,7 +254,7 @@ input[type="submit"]:hover {
 }
 
 .recipe-table th {
-    background-color:white;
+    background-color:#f4a261;
     font-weight: bold;
 }
 
@@ -308,4 +309,65 @@ input[type="submit"]:hover {
 .filter img{
     height: 25px;
     width: 25px;
+}
+
+/*Recipe Page*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid #013e80;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4a261;
+    color: white;
+    font-weight: bold;
+}
+
+.comment{
+    background: #fdf0ab;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px #ecdfa0ce;
+    width: 96%;
+    margin: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.steps{
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.fav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.fav-btn {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.fav-btn:hover {
+    background-color: #d64545;
 }

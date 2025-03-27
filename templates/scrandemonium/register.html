@@ -12,7 +12,7 @@
 
     {% if registered %}
         Thank you for registering with us.  Enjoy your stay!
-        <a href="">Return to our homepage to continue searching!</a>
+        <a href="{% url 'scrandemonium:index' %}">Return to our homepage to continue searching!</a>
     {% else %}
 
     Enter you details below

@@ -8,7 +8,7 @@
 {% block body_block %}
 
     <div>
-        <img src="{{ user.profilePicture }}" alt="Profile Picture" />
+        <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" alt="Profile Picture" />
     </div>
 
     <div>
@@ -20,47 +20,60 @@
     <div>
         <h2>{{ user.username}}'s Favourites</h2>
         
-        <h4>Recipe 1</h4>
-        <img src="" alt="Recipe Picture" />
+        {% if user_favourites %}
+            <h4>Recipe 1</h4>
+            <img src="" alt="Recipe Picture" />
 
-        <h4>Recipe 2</h4>
-        <img src="" alt="Recipe Picture" />
+            <h4>Recipe 2</h4>
+            <img src="" alt="Recipe Picture" />
 
-        <h4>Recipe 3</h4>
-        <img src="" alt="Recipe Picture" />
+            <h4>Recipe 3</h4>
+            <img src="" alt="Recipe Picture" />
+        {% else %}
+            <h4>{{ user.username }} does not have any favourites yet</h4>
+        {% endif %}
     </div>
 
     <div>
         <h2>{{ user.username }}'s Recipes</h2>
-        <table>
-            <tr>
-                <th>Recipes</th>
-            </tr>
-            {% for recipe in user.user_recipes %}
-            <tr>
-                <td>{{ recipe.title }}</td>
-                <td>{{ recipe.mealType }}</td>
-                <td>{{ recipe.ratingAvg }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        {% if user_recipes %}
+            <table>
+                <tr>
+                    <th>Recipes</th>
+                </tr>
+                {% for recipe in user.user_recipes %}
+                <tr>
+                    <td>{{ recipe.title }}</td>
+                    <td>{{ recipe.mealType }}</td>
+                    <td>{{ recipe.ratingAvg }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h4>{{ user.usernmae }} does not have any recipes yet</h4>
+        {% endif %}
 
     </div>
 
     <div>
         <h2>{{ user.username }}'s Reviews</h2>
-        <table>
-            <tr>
-                <th>Reviews</th>
-            </tr>
-            {% for comment in user.user_comments %}
-            <tr>
-                <td>{{ comment.recipe }}</td>
-                <td>{{ comment.comment }}</td>
-                <td>{{ comment.date }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+
+        {% if user_reviews %}
+            <table>
+                <tr>
+                    <th>Reviews</th>
+                </tr>
+                {% for comment in user.user_comments %}
+                <tr>
+                    <td>{{ comment.recipe }}</td>
+                    <td>{{ comment.comment }}</td>
+                    <td>{{ comment.date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h4>{{ user.username }} does not have any reviews yet</h4>
+        {% endif %}
 
 
     </div>

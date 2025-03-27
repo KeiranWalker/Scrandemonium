@@ -8,23 +8,35 @@
 {% block body_block %}
 
     <div>
-        <h1>{{ user.username }}'s {{ recipe.name }}</h1>
-        <img src="" alt="Recipe Picture" />
+        <h1>{{ recipe.user }}'s {{ recipe.title }}</h1>
+        <img src="{{ media.media_url }}" alt="Recipe Picture" />
     </div>
         
     <div>
-        <form id="add_recipe_form" method="post" action="">
+        <form id="add_recipe_form" method="post">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }} 
-                <br />
-            {% endfor %}
-            <input type="submit" name="submit" value="Submit" />
+
+                <!--Rating-->
+                <div>
+                    <p>Rating:</p>
+                    <input type="radio" id="rating_1" name="rating" value="1" />
+                    <label for="rating_1">1</label>
+                    <input type="radio" id="rating_2" name="rating" value="2" />
+                    <label for="rating_2">2</label>
+                    <input type="radio" id="rating_3" name="rating" value="3" />
+                    <label for="rating_3">3</label>
+                    <input type="radio" id="rating_4" name="rating" value="4" />
+                    <label for="rating_4">4</label>
+                    <input type="radio" id="rating_5" name="rating" value="5" />
+                    <label for="rating_5">5</label>
+                </div>
+
+                <div>
+                    <!--Comments-->
+                    <p>Additional Comments:</p>
+                    <textarea id="comment" name="comment" rows="5" placeholder="Tell us what you think..."></textarea>
+                </div>
+            <input type="submit" name="submit" value="Submit Review" />
         </form>
     </div>
 

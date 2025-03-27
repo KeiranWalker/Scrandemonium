@@ -141,7 +141,8 @@ def recipes(request, meal_type):
 # REVIEWRECIPE PAGE
 @login_required
 def review_recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id)
+    recipe = get_object_or_404(Recipe, recipe_id=recipe_id)
+    media = Media.objects.filter(recipe=recipe, media_type="IMAGE").first()
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -152,6 +153,7 @@ def review_recipe(request, recipe_id):
                 recipe=recipe,
                 comment=form.cleaned_data['comment']
             )
+
             # Save or update rating (to avoid having multiple ratings if multiple comments from 1 user)
             Rating.objects.update_or_create(
                 user=request.user,
@@ -165,6 +167,7 @@ def review_recipe(request, recipe_id):
     return render(request, 'scrandemonium/review_recipe.html', {
         'recipe': recipe,
         'form': form,
+        'media': media
     })
 
 #LOGOUT

@@ -1,5 +1,5 @@
 {% extends 'scrandemonium/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block title_block %}
     Profile
@@ -7,74 +7,81 @@
 
 {% block body_block %}
 
-    <div>
-        <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" alt="Profile Picture" />
-    </div>
+    <div class="index-grid">
+        <div class="bio">
+            <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" >
 
-    <div>
-        <h1>{{ user.username }}</h1>
-        <p>{{ user.biography}}</p>
+            <h1>{{ user.username }}</h1>
+            <p>{{ user.biography }}</p>
+        </div>
 
-    </div>
+        <div class="box">
+            <h2>{{ user.username }}'s Favourites</h2>
 
-    <div>
-        <h2>{{ user.username}}'s Favourites</h2>
-        
-        {% if user_favourites %}
-            <h4>Recipe 1</h4>
-            <img src="" alt="Recipe Picture" />
-
-            <h4>Recipe 2</h4>
-            <img src="" alt="Recipe Picture" />
-
-            <h4>Recipe 3</h4>
-            <img src="" alt="Recipe Picture" />
-        {% else %}
-            <h4>{{ user.username }} does not have any favourites yet</h4>
-        {% endif %}
-    </div>
-
-    <div>
-        <h2>{{ user.username }}'s Recipes</h2>
-        {% if user_recipes %}
-            <table>
-                <tr>
-                    <th>Recipes</th>
-                </tr>
-                {% for recipe in user.user_recipes %}
-                <tr>
-                    <td>{{ recipe.title }}</td>
-                    <td>{{ recipe.mealType }}</td>
-                    <td>{{ recipe.ratingAvg }}</td>
-                </tr>
+            {% if user_favourites %}
+                {% for favourite in user_favourites %}
+                    <h4>{{ favourite.recipe.title }}</h4>
+                    {% if favourite.recipe.image %}
+                        <img src="{{ favourite.recipe.image.url }}" alt="Recipe Picture" />
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
                 {% endfor %}
-            </table>
-        {% else %}
-            <h4>{{ user.usernmae }} does not have any recipes yet</h4>
-        {% endif %}
-
+            {% else %}
+                <h4>{{ user.username }} does not have any favourites yet</h4>
+            {% endif %}
+        </div>
     </div>
 
-    <div>
-        <h2>{{ user.username }}'s Reviews</h2>
+    <div class="index-grid">
+        <div class="box">
+            <h2>{{ user.username }}'s Recipes</h2>
+            {% if user_recipes %}
+                <table>
+                    <tr>
+                        <th>Recipe Title</th>
+                        <th>Meal Type</th>
+                        <th>Average Rating</th>
+                    </tr>
+                    {% for recipe in user_recipes %}
+                    <tr>
+                        <td>{{ recipe.title }}</td>
+                        <td>{{ recipe.meal_type }}</td>
+                        <td>{{ recipe.rating_avg }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h4>{{ user.username }} does not have any recipes yet</h4>
+            {% endif %}
+        </div>
 
-        {% if user_reviews %}
-            <table>
-                <tr>
-                    <th>Reviews</th>
-                </tr>
-                {% for comment in user.user_comments %}
-                <tr>
-                    <td>{{ comment.recipe }}</td>
-                    <td>{{ comment.comment }}</td>
-                    <td>{{ comment.date }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <h4>{{ user.username }} does not have any reviews yet</h4>
-        {% endif %}
+        <div class="box">
+            <h2>{{ user.username }}'s Reviews</h2>
 
+            {% if user_comments %}
+                <table>
+                    <tr>
+                        <th>Recipe</th>
+                        <th>Comment</th>
+                        <th>Rating</th>
+                    </tr>
+                    {% for comment in user_comments %}
+                    <tr>
+                        <td>{{ comment.recipe.title }}</td>
+                        <td>{{ comment.comment }}</td>
+                        <td>
+                            {% with rating=comment.recipe.ratings.all|first %}
+                                {{ rating.rating }}/5
+                            {% endwith %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h4>{{ user.username }} does not have any reviews yet</h4>
+            {% endif %}
+        </div>
+    </div>    
 
-    </div>
 {% endblock %}

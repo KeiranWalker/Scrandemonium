@@ -20,8 +20,9 @@
 
         <!--Header - Title and Search Bar-->
         <div class="header-bar">
-            <img src="{% static 'scran_logo.jpg' %}" />
-
+            <a href="{% url 'scrandemonium:index' %}">
+                <img src="{% static 'scran_logo.jpg' %}" alt="Scran Logo" />
+            </a>
             <div class="search-bar">
                 <form action="">
                     <input type="text" placeholder="Search..." />

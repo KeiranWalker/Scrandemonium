@@ -195,7 +195,7 @@ nav ul li a:hover {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px #ecdfa0;
-    width: 97%;
+    width: 96%;
     margin: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
@@ -215,4 +215,24 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #013e80;
     color: #ffffffe7;
+}
+
+/*Login*/
+
+.login {
+    background: #fdf0ab;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px #ecdfa0;
+    width: 96%;
+    margin: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.login label,
+.login input {
+    display: block; 
+    width: 15%;   
+    margin-bottom: 10px; 
 }

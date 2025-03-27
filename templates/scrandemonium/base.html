@@ -13,7 +13,8 @@
             {% endblock %}
         </title>
         <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-        <script src="{% static 'javascript/js.js'%}"></script>
+        <script src="{% static "javascript/jquery-3.3.1.min.js" %}" crossorigin="anonymous"></script>
+        <script src="{% static "javascript/js.js" %}" crossorigin="anonymous"></script>    
     </head>
 
     <body>
@@ -64,7 +65,9 @@
             </div>
         </div>
         
-
+        <button class="btn btn-primary" id="about-btn">
+            Click me - I'm using JQuery!
+        </button>
 
     </body>
 

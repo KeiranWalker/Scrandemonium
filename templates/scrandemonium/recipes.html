@@ -6,12 +6,17 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>{{ MealType }} Recipes</h1>
 
-    <section id="{{ MealType }}">
-        <p>{{ description }}</p>
-        <img src="{{ image }}" alt="MealType Photo" />
-    </section>
+    <div class="container">
+        <div class="bio text">
+            <h1>{{ MealType }} Recipes</h1>
+            <p>{{ description }}</p>
+        </div>
+
+        <div class="photos">
+            <img src="{{ image }}" alt="MealType Photo" />
+        </div>
+    </div>
 
     <section id="search-bar">
     </section>

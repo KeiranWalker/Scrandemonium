@@ -8,12 +8,12 @@
 {% block body_block %}
 
     <div class="index-grid">
-        <div class="box">
+        <div class="box" id="highlight">
             <div class="fav">
                 {% if user.is_authenticated %}
                     <form method="post">
                         {% csrf_token %}
-                        <button type="submit" class="fav-btn">
+                        <button type="submit" class="fav-btn" id="favourite-btn">
                             {% if is_favourite %}
                                 Remove from Favourites
                             {% else %}
@@ -49,7 +49,7 @@
         </div>
     
         <!-- Media Section -->
-        <div class="box">
+        <div class="box" id="highlight">
             <h3>Images</h3>
             {% with image_list=media|dictsort:"media_type" %}
                 {% if image_list|length > 0 and "IMAGE" in image_list.0.media_type %}
@@ -81,7 +81,7 @@
     </div>
 
     <!--List of Steps-->
-    <div class="index-grid">
+    <div class="index-grid" id="highlight">
         <div class="box">
             <h2>Steps</h2>
             <ol>
@@ -92,7 +92,7 @@
         </div>
         
         <!--Comment List-->
-        <div class="bio">
+        <div class="bio" id="highlight">
             <h2>Reviews</h2>
             {% if comments %}
                 {% for comment in comments %}

@@ -9,13 +9,13 @@
 
 <div class="index-main-grid">
     <div class="index-main">
-        <div class ="bio text">
+        <div class ="bio text" id="highlight">
             <h1>Welcome to Scrandemonium</h1>
             <p>Welcome to Scrandemonium!  This is a place of crazy creations, scrumptious sandwiches, and fantastic food stuffs. So why dont you stay a little.  Try something new?  Share some of your own concoctions?  No matte what, we are happy you chose to spend you time here.</p>
         </div>
-
+        
         <div class="index-grid">
-            <div class = "box newest"> 
+            <div class = "box newest" id="highlight"> 
                 <h2>Newest Dishes</h2>
                 <ul id="newest-recipes-list">
                     {% for recipe in newest_recipes %}
@@ -24,7 +24,7 @@
                   </ul>
             </div>
         
-            <div class = "box best">
+            <div class = "box best" id="highlight">
                 <h2>Best Rated Recipes</h2>
                 <ul id="best-rated-recipes-list">
                     {% for recipe in best_rated %}

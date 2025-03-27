@@ -11,13 +11,13 @@
         <img src="{{ MEDIA_URL }}{{ other_user.profile_picture }}" alt="Profile Picture" />
     </div>
 
-    <div>
+    <div id="highlight">
         <h1>{{ other_user.username }}</h1>
         <p>{{ other_user.biography}}</p>
 
     </div>
 
-    <div>
+    <div id="highlight">
         <h2>{{ other_user.username}}'s Favourites</h2>
         
         {% if other_user_favourites %}
@@ -34,7 +34,7 @@
         {% endif %}
     </div>
 
-    <div>
+    <div id="highlight">
         <h2>{{ other_user.username }}'s Recipes</h2>
         {% if other_user_recipes %}
             <table>
@@ -55,7 +55,7 @@
 
     </div>
 
-    <div>
+    <div id="highlight">
         <h2>{{ other_user.username }}'s Reviews</h2>
 
         {% if other_user_reviews %}

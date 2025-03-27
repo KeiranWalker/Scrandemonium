@@ -7,12 +7,12 @@
 
 {% block body_block %}
 
-    <div>
+    <div id="highlight">
         <h1>{{ user.username }}'s {{ recipe.name }}</h1>
         <img src="" alt="Recipe Picture" />
     </div>
         
-    <div>
+    <div id="highlight">
         <form id="add_recipe_form" method="post" action="">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}

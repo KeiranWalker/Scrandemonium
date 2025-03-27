@@ -204,3 +204,23 @@ def other_profile(request, id):
                             "other_user_recipes": other_user_recipes,
                             "other_user_favourites": other_user_favourites,
                             "other_user_ratings": other_user_ratings})
+
+# Search
+def search_result(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '').strip()
+        recipes = Recipe.objects.filter(title__contains=searched)
+        return render(request, 'scrandemonium/search_result.html', {'searched': searched,
+                                                                    'recipes': recipes})
+    else:
+        return redirect('scrandemonium:index')
+    
+# Search Recipes
+def recipe_search_result(request, meal_type):
+    if request.method == 'POST':
+        searched = request.POST.get('searched', '').strip()
+        recipes = Recipe.objects.filter(title__contains=searched, meal_type=meal_type)
+        return render(request, 'scrandemonium/recipe_search_result.html', {'searched': searched,
+                                                                    'recipes': recipes, 'meal_type': meal_type})
+    else:
+        return redirect('scrandemonium:index')

@@ -25,8 +25,9 @@
         <h2>{{ MealType }}'s Recipes</h2>
         <div class="index-grid">
             <div class="search-bar-recipes">
-                <form action="">
-                    <input type="text" placeholder="Search..." />
+                <form action="{% url 'scrandemonium:recipe_search_result' MealType %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Search..." name="searched"/>
                 </form>
             </div>
             <div class="filter">

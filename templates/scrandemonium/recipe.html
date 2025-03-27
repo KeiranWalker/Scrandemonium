@@ -7,105 +7,109 @@
 
 {% block body_block %}
 
-    <p><strong>{{ favourite_count }} user{{ favourite_count|pluralize }} favourited this recipe.</strong></p>
-
-    {% if user.is_authenticated %}
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit">
-                {% if is_favourite %}
-                    Remove from Favourites
+    <div class="index-grid">
+        <div class="box">
+            <div class="fav">
+                {% if user.is_authenticated %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="fav-btn">
+                            {% if is_favourite %}
+                                Remove from Favourites
+                            {% else %}
+                                Add to Favourites
+                            {% endif %}
+                        </button>
+                    </form>
+                    <p><strong>{{ favourite_count }} user{{ favourite_count|pluralize }} favourited this recipe.</strong></p>
                 {% else %}
-                    Add to Favourites
+                    <p><a href="{% url 'scrandemonium:login' %}">Login</a> to favourite this recipe.</p>
                 {% endif %}
-            </button>
-        </form>
-    {% else %}
-        <p><a href="{% url 'scrandemonium:login' %}">Login</a> to favourite this recipe.</p>
-    {% endif %}
-
-    <div>
-        <h1>{{ recipe.title }}</h1>
-        <p><strong>Uploaded by: <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user.username }}</a></strong> </p>
-        <p><strong>Rating: {{ avg_rating }}</strong> </p>
-        <p><strong>Servings: {{ recipe.servings }}</strong> </p>
-        <p><strong>Time to make: {{ recipe.cooking_time }} mins</strong> </p>
-
-        <!--Ingredients Table-->
-        <h2>Ingredients</h2>
-        <table>
-            <tr>
-                <th>Ingredient</th>
-                <th>Quantity</th>
-            </tr>
-            {% for ingredient in ingredients %}
-            <tr>
-                <td>{{ ingredient.ingredient|title }}</td>
-                <td>{{ ingredient.quantity }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+            </div>
+            <h1>{{ recipe.title }}</h1>
+            <p><strong>Uploaded by: <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user.username }}</a></strong> </p>
+            <p><strong>Rating: {{ avg_rating }}</strong> </p>
+            <p><strong>Servings: {{ recipe.servings }}</strong> </p>
+            <p><strong>Time to make: {{ recipe.cooking_time }} mins</strong> </p>
+    
+            <!--Ingredients Table-->
+            <h2>Ingredients</h2>
+            <table>
+                <tr>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
+                </tr>
+                {% for ingredient in ingredients %}
+                <tr>
+                    <td>{{ ingredient.ingredient|title }}</td>
+                    <td>{{ ingredient.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    
+        <!-- Media Section -->
+        <div class="box">
+            <h3>Images</h3>
+            {% with image_list=media|dictsort:"media_type" %}
+                {% if image_list|length > 0 and "IMAGE" in image_list.0.media_type %}
+                    {% for m in media %}
+                        {% if m.media_type == "IMAGE" %}
+                            <img src="{{ m.media_url }}" alt="Image" width="300">
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No images available for this recipe.</p>
+                {% endif %}
+            {% endwith %}
+    
+            <h3>Videos</h3>
+            {% with video_list=media|dictsort:"media_type" %}
+                {% if video_list|length > 0 and "VIDEO" in video_list.0.media_type %}
+                    {% for m in media %}
+                        {% if m.media_type == "VIDEO" %}
+                            <video controls width="300">
+                                <source src="{{ m.media_url }}" type="video/mp4">
+                            </video>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p>No videos available for this recipe.</p>
+                {% endif %}
+            {% endwith %}
+        </div>    
     </div>
 
-    <!-- Media Section -->
-    <h3>Images</h3>
-    {% with image_list=media|dictsort:"media_type" %}
-        {% if image_list|length > 0 and "IMAGE" in image_list.0.media_type %}
-            {% for m in media %}
-                {% if m.media_type == "IMAGE" %}
-                    <img src="{{ m.media_url }}" alt="Image" width="300">
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <p>No images available for this recipe.</p>
-        {% endif %}
-    {% endwith %}
-
-    <h3>Videos</h3>
-    {% with video_list=media|dictsort:"media_type" %}
-        {% if video_list|length > 0 and "VIDEO" in video_list.0.media_type %}
-            {% for m in media %}
-                {% if m.media_type == "VIDEO" %}
-                    <video controls width="300">
-                        <source src="{{ m.media_url }}" type="video/mp4">
-                    </video>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <p>No videos available for this recipe.</p>
-        {% endif %}
-    {% endwith %}
-
-
-
-
     <!--List of Steps-->
-    <h2>Steps</h2>
-    <ol>
-        {% for step in steps %}
-            <li>{{ step|capfirst }}</li>
-        {% endfor %}
-    </ol>
-    
-    <!--Comment List-->
-    <div>
-        <h2>Reviews</h2>
-        {% if comments %}
-            {% for comment in comments %}
-                <div>
-                    <p><strong>{{ comment.user.username }}</strong>
-                        {% for rating in recipe_ratings %}
-                            {% if rating.user.username == comment.user.username %}
-                                — Rated {{ rating.rating }}/5
-                            {% endif %}
-                        {% endfor %}
-                    </p>
-                    <p>{{ comment.comment }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No comments yet. Be the first to leave a review!</p>
-        {% endif %}
+    <div class="index-grid">
+        <div class="box">
+            <h2>Steps</h2>
+            <ol>
+                {% for step in steps %}
+                    <li class="steps">{{ step|capfirst }}</li>
+                {% endfor %}
+            </ol>
+        </div>
         
+        <!--Comment List-->
+        <div class="bio">
+            <h2>Reviews</h2>
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment">
+                        <p><strong>{{ comment.user.username }}</strong>
+                            {% for rating in recipe_ratings %}
+                                {% if rating.user.username == comment.user.username %}
+                                    — Rated {{ rating.rating }}/5
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No comments yet. Be the first to leave a review!</p>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

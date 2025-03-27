@@ -147,8 +147,8 @@ class RecipeIngredient(models.Model):
 # -- MEDIA --
 class Media(models.Model):
     MEDIA_TYPES = [
-        ('Video', 'Video'),
-        ('Image', 'Image'),
+        ('VIDEO', 'VIDEO'),
+        ('IMAGE', 'IMAGE'),
     ]
 
     media_id = models.AutoField(primary_key=True)

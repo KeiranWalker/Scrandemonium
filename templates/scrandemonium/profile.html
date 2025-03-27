@@ -8,14 +8,14 @@
 {% block body_block %}
 
     <div class="index-grid">
-        <div class="bio">
+        <div class="bio" id="highlight">
             <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" >
 
             <h1>{{ user.username }}</h1>
             <p>{{ user.biography }}</p>
         </div>
 
-        <div class="box">
+        <div class="box" id="highlight">
             <h2>{{ user.username }}'s Favourites</h2>
 
             {% if user_favourites %}
@@ -34,7 +34,7 @@
     </div>
 
     <div class="index-grid">
-        <div class="box">
+        <div class="box" id="highlight">
             <h2>{{ user.username }}'s Recipes</h2>
             {% if user_recipes %}
                 <table>
@@ -56,7 +56,7 @@
             {% endif %}
         </div>
 
-        <div class="box">
+        <div class="box" id="highlight">
             <h2>{{ user.username }}'s Reviews</h2>
 
             {% if user_comments %}

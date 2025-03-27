@@ -9,8 +9,8 @@
     <h1>{{ MealType }} Recipes</h1>
 
     <section id="{{ MealType }}">
-        <p>{{ MealType }}'s description</p>
-        <img src="" alt="MealType Photo" />
+        <p>{{ description }}</p>
+        <img src="{{ image }}" alt="MealType Photo" />
     </section>
 
     <section id="search-bar">
@@ -25,7 +25,7 @@
             </tr>
             {% for recipe in recipes %} <!-- you weren't looping over the list, but recipes.recipe -->
             <tr>
-                <td>{{ recipe.title }}</td>
+                <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
                 <td>{{ recipe.user }}</td>
                 <td>{{ recipe.ratingAvg }}</td>
             </tr>

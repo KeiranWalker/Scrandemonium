@@ -5,6 +5,7 @@ from django.urls import reverse
 from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, User
 from django.db.models import Avg
 from .forms import CustomUserCreationForm, ProfileForm, AddRecipeForm, LoginForm, ReviewForm
+from django.templatetags.static import static
 
 #from forms import AddRecipeForm  # Ozi needs to create this
 
@@ -89,6 +90,18 @@ def register(request):
 
 # RECIPES PAGE
 def recipes(request, meal_type):
+    recipe_image = {"Breakfast": static('breakfast.jpg'),
+                    "Lunch": static('lunch.jpg'),
+                    "Dinner": static('dinner.jpg'),
+                    "Dessert": static('dessert.jpg'),
+                    "Baking": static('baking.jpg'),
+                    "Snacks": static('snack.jpg')}
+    recipe_desc = {"Breakfast": "Breakfast is the first meal of the day, providing energy and nutrients to start the morning. A traditional breakfast can include eggs, toast, and bacon, while healthier options feature oatmeal, yogurt, or fruit. Some, prefer a hearty meal, like an English breakfast with sausages and beans, while others enjoy a light smoothie. Whether sweet or savory, breakfast fuels the body and boosts metabolism. A balanced meal with protein, fiber, and vitamins sets the tone for a productive day ahead.",
+                  "Lunch": "Lunch is a midday meal that replenishes energy and provides a break during the work or school day. It can range from light to filling, with options like a fresh salad, sandwiches, or wraps. A warm dish such as pasta, rice bowls, or soups can also make a satisfying lunch. Many people enjoy protein-rich options like grilled chicken, tofu, or fish, paired with vegetables or grains. In some cultures, lunch is the main meal, with multiple courses. Whether it's a quick bite or a leisurely meal, lunch is a time to nourish the body and recharge for the afternoon ahead.",
+                  "Dinner": "Dinner is the evening meal, often considered the most substantial of the day. It’s a time to unwind and enjoy a variety of dishes, from simple comfort food to more elaborate meals. Common choices include roasted meats, pasta, casseroles, or stir-fries, often accompanied by vegetables, rice, or potatoes. Many enjoy family-style dinners with shared dishes or intimate meals with close friends. In some cultures, dinner is a multi-course affair with appetizers, main courses, and desserts. Whether light or hearty, dinner offers a chance to relax and savor flavors after a busy day, often paired with conversation and enjoyment.",
+                  "Dessert": "Dessert is the sweet, indulgent treat that typically concludes a meal. It offers a delightful contrast to savory dishes and can range from light to decadent. Popular choices include cakes, pies, cookies, or pastries, often flavored with chocolate, fruit, or spices. Classic desserts like ice cream, custards, and puddings are beloved worldwide, while more elaborate options like soufflés or tarts are reserved for special occasions. Fruit-based desserts, such as sorbets or fruit salads, provide a refreshing end to a meal. Whether rich or refreshing, dessert is a celebration of sweetness that adds a touch of joy to any dining experience.",
+                  "Baking": "Baking is a method of cooking that involves using dry heat, typically in an oven, to prepare a variety of foods, especially pastries, bread, cakes, and cookies. It’s a precise process that combines ingredients like flour, sugar, eggs, butter, and leavening agents (such as yeast or baking powder) to create delicious treats and savory items. Baking requires careful attention to temperature, time, and the balance of ingredients to achieve the desired texture and flavor. From the smell of freshly baked bread to a perfectly golden pie crust, baking fills the home with warmth and mouthwatering aromas, making it a beloved culinary activity.",
+                  "Snacks": "Snacks are small, quick bites typically enjoyed between meals to curb hunger or satisfy cravings. They can range from savory to sweet, healthy to indulgent. Popular snacks include chips, nuts, fruit, granola bars, and yogurt, while others might enjoy cookies, popcorn, or chocolate. Healthy snacks like vegetable sticks with hummus or a handful of trail mix offer nutrients and energy, while treats like cupcakes or candy provide a sweet pick-me-up. Snacks are versatile and can be enjoyed on-the-go, during a break, or as a light, satisfying addition to the day. They bring joy in their convenience and variety."}
     # Filter recipes by meal_type (e.g. "Lunch", "Dinner", etc.)
     recipes = Recipe.objects.filter(meal_type=meal_type)
     # Annotate with average rating
@@ -97,6 +110,8 @@ def recipes(request, meal_type):
     return render(request, 'scrandemonium/recipes.html', {
         'MealType': meal_type,
         'recipes': recipes,
+        'image': recipe_image[meal_type],
+        'description':recipe_desc[meal_type]
     })
 
 # REVIEWRECIPE PAGE

@@ -7,7 +7,7 @@
 
 {% block body_block %}
 
-    <div class="bio">
+    <div class="bio" id="highlight">
         <h1>
             Login to Scrandemonium
         </h1>
@@ -28,6 +28,6 @@
             <input type="submit" name="submit" value="Login" />
         </form>
 
-        <div class="box">Don't have an account? <a href="{% url 'scrandemonium:register' %}">Register here</a></div>
+        <div class="box" id="highlight">Don't have an account? <a href="{% url 'scrandemonium:register' %}">Register here</a></div>
     {% endif %}
 {% endblock %}

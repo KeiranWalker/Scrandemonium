@@ -7,74 +7,81 @@
 
 {% block body_block %}
 
-    <div>
-        <img src="{{ MEDIA_URL }}{{ other_user.profile_picture }}" alt="Profile Picture" />
-    </div>
+    <div class="index-grid">
+        <div class="bio">
+            <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" >
 
-    <div>
-        <h1>{{ other_user.username }}</h1>
-        <p>{{ other_user.biography}}</p>
+            <h1>{{ other_user.username }}</h1>
+            <p>{{ other_user.biography }}</p>
+        </div>
 
-    </div>
+        <div class="box">
+            <h2>{{ other_user.username }}'s Favourites</h2>
 
-    <div>
-        <h2>{{ other_user.username}}'s Favourites</h2>
-        
-        {% if other_user_favourites %}
-            <h4>Recipe 1</h4>
-            <img src="" alt="Recipe Picture" />
-
-            <h4>Recipe 2</h4>
-            <img src="" alt="Recipe Picture" />
-
-            <h4>Recipe 3</h4>
-            <img src="" alt="Recipe Picture" />
-        {% else %}
-            <h4>{{ other_user.username }} does not have any favourites yet</h4>
-        {% endif %}
-    </div>
-
-    <div>
-        <h2>{{ other_user.username }}'s Recipes</h2>
-        {% if other_user_recipes %}
-            <table>
-                <tr>
-                    <th>Recipes</th>
-                </tr>
-                {% for recipe in other_user_recipes %}
-                <tr>
-                    <td>{{ recipe.title }}</td>
-                    <td>{{ recipe.mealType }}</td>
-                    <td>{{ recipe.ratingAvg }}</td>
-                </tr>
+            {% if other_user_favourites %}
+                {% for favourite in other_user_favourites %}
+                    <h4>{{ favourite.recipe.title }}</h4>
+                    {% if favourite.recipe.image %}
+                        <img src="{{ favourite.recipe.image.url }}" alt="Recipe Picture" />
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
                 {% endfor %}
-            </table>
-        {% else %}
-            <h4>{{ user.usernmae }} does not have any recipes yet</h4>
-        {% endif %}
-
+            {% else %}
+                <h4>{{ other_user.username }} does not have any favourites yet</h4>
+            {% endif %}
+        </div>
     </div>
 
-    <div>
-        <h2>{{ other_user.username }}'s Reviews</h2>
+    <div class="index-grid">
+        <div class="box">
+            <h2>{{ other_user.username }}'s Recipes</h2>
+            {% if other_user_recipes %}
+                <table>
+                    <tr>
+                        <th>Recipe Title</th>
+                        <th>Meal Type</th>
+                        <th>Average Rating</th>
+                    </tr>
+                    {% for recipe in other_user_recipes %}
+                    <tr>
+                        <td>{{ recipe.title }}</td>
+                        <td>{{ recipe.meal_type }}</td>
+                        <td>{{ recipe.rating_avg }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <h4>{{ other_user.username }} does not have any recipes yet</h4>
+            {% endif %}
+        </div>
 
-        {% if other_user_reviews %}
+        <div class="box">
+            <h2>{{ other_user.username }}'s Reviews</h2>
+
+            {% if other_user_comments %}
             <table>
                 <tr>
-                    <th>Reviews</th>
+                    <th>Recipe</th>
+                    <th>Comment</th>
+                    <th>Rating</th>
                 </tr>
                 {% for comment in other_user_comments %}
                 <tr>
-                    <td>{{ comment.recipe }}</td>
+                    <td>{{ comment.recipe.title }}</td>
                     <td>{{ comment.comment }}</td>
-                    <td>{{ comment.date }}</td>
+                    <td>
+                        {% with rating=comment.recipe.ratings.all|first %}
+                            {{ rating.rating|default:"No ratings yet" }}/5
+                        {% endwith %}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
-        {% else %}
-            <h4>{{ other_user.username }} does not have any reviews yet</h4>
-        {% endif %}
+            {% else %}
+                <h4>{{ other_user.username }} does not have any reviews yet</h4>
+            {% endif %}
+        </div>
+    </div>    
 
-
-    </div>
 {% endblock %}

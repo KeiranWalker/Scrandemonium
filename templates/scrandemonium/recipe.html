@@ -9,10 +9,10 @@
 
     <div>
         <h1>{{ recipe.title }}</h1>
-        <p><strong>Uploaded by: {{ user.username }}</strong> </p>
-        <p><strong>Rating: {{ recipe.ratingAvg }}</strong> </p>
+        <p><strong>Uploaded by: {{ recipe.user.username }}</strong> </p>
+        <p><strong>Rating: {{ avg_rating }}</strong> </p>
         <p><strong>Servings: {{ recipe.servings }}</strong> </p>
-        <p><strong>Time to make: {{ recipe.cookingTime }}</strong> </p>
+        <p><strong>Time to make: {{ recipe.cooking_time }} mins</strong> </p>
 
         <!--Ingredients Table-->
         <h2>Ingredients</h2>
@@ -21,44 +21,74 @@
                 <th>Ingredient</th>
                 <th>Quantity</th>
             </tr>
-            {% for ingredient in recipe.ingredients %}
+            {% for ingredient in ingredients %}
             <tr>
-                <td>{{ ingredient.ingredientName }}</td>
+                <td>{{ ingredient.ingredient|title }}</td>
                 <td>{{ ingredient.quantity }}</td>
             </tr>
             {% endfor %}
         </table>
     </div>
 
-    <!--Food Photo-->
-    <div>
-        <img src="{{ recipe.photo }}" alt="Recipe Photo" />
-    </div>
+    <!-- Media Section -->
+    <h3>Images</h3>
+    {% with image_list=media|dictsort:"media_type" %}
+        {% if image_list|length > 0 and "IMAGE" in image_list.0.media_type %}
+            {% for m in media %}
+                {% if m.media_type == "IMAGE" %}
+                    <img src="{{ m.media_url }}" alt="Image" width="300">
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No images available for this recipe.</p>
+        {% endif %}
+    {% endwith %}
 
-    <!--How to Video-->
-    <div>
-        <video controls>
-            <source src="{{ recipe.video }}" type="How to video" />
-        </video>
-    </div>
+    <h3>Videos</h3>
+    {% with video_list=media|dictsort:"media_type" %}
+        {% if video_list|length > 0 and "VIDEO" in video_list.0.media_type %}
+            {% for m in media %}
+                {% if m.media_type == "VIDEO" %}
+                    <video controls width="300">
+                        <source src="{{ m.media_url }}" type="video/mp4">
+                    </video>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No videos available for this recipe.</p>
+        {% endif %}
+    {% endwith %}
+
+
+
 
     <!--List of Steps-->
-    <div>
-        <h2>Steps</h2>
-        <ol>
-            {% for step in recipe.steps %}
-            <li>{{ step }}</li>
-            {% endfor %}
-        </ol>
-    </div>
+    <h2>Steps</h2>
+    <ol>
+        {% for step in steps %}
+            <li>{{ step|capfirst }}</li>
+        {% endfor %}
+    </ol>
     
     <!--Comment List-->
     <div>
         <h2>Reviews</h2>
-        <ol>
-            {% for comment in comment.comments %}
-            <li>{{ comment }}</li>
+        {% if comments %}
+            {% for comment in comments %}
+                <div>
+                    <p><strong>{{ comment.user.username }}</strong>
+                        {% for rating in recipe_ratings %}
+                            {% if rating.user.username == comment.user.username %}
+                                — Rated {{ rating.rating }}/5
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    <p>{{ comment.comment }}</p>
+                </div>
             {% endfor %}
-        </ol>
+        {% else %}
+            <p>No comments yet. Be the first to leave a review!</p>
+        {% endif %}
+        
     </div>
 {% endblock %}

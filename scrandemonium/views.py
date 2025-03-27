@@ -52,16 +52,24 @@ def add_recipe(request):
 
 # RECIPE PAGE
 def recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id)
+    recipe = get_object_or_404(Recipe, recipe_id=recipe_id)
     ingredients = RecipeIngredient.objects.filter(recipe=recipe)
     media = Media.objects.filter(recipe=recipe)
     comments = Comment.objects.filter(recipe=recipe)
+    avg_rating = Rating.objects.filter(recipe=recipe).aggregate(Avg('rating'))['rating__avg']
+    recipe_ratings = Rating.objects.filter(recipe=recipe)
+    print(recipe_ratings)
+    print(comments)
+    steps = recipe.step.split(';')
 
     return render(request, 'scrandemonium/recipe.html', {
         'recipe': recipe,
         'ingredients': ingredients,
         'media': media,
         'comments': comments,
+        'avg_rating': avg_rating,
+        'steps': steps,
+        'recipe_ratings': recipe_ratings,
     })
 
 # REGISTER PAGE

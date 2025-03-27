@@ -7,6 +7,23 @@
 
 {% block body_block %}
 
+    <p><strong>{{ favourite_count }} user{{ favourite_count|pluralize }} favourited this recipe.</strong></p>
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">
+                {% if is_favourite %}
+                    Remove from Favourites
+                {% else %}
+                    Add to Favourites
+                {% endif %}
+            </button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'scrandemonium:login' %}">Login</a> to favourite this recipe.</p>
+    {% endif %}
+
     <div>
         <h1>{{ recipe.title }}</h1>
         <p><strong>Uploaded by: {{ recipe.user.username }}</strong> </p>

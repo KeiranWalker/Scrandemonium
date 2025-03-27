@@ -1,0 +1,80 @@
+{% extends 'scrandemonium/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Profile
+{% endblock %}
+
+{% block body_block %}
+
+    <div>
+        <img src="{{ MEDIA_URL }}{{ other_user.profile_picture }}" alt="Profile Picture" />
+    </div>
+
+    <div>
+        <h1>{{ other_user.username }}</h1>
+        <p>{{ other_user.biography}}</p>
+
+    </div>
+
+    <div>
+        <h2>{{ other_user.username}}'s Favourites</h2>
+        
+        {% if other_user_favourites %}
+            <h4>Recipe 1</h4>
+            <img src="" alt="Recipe Picture" />
+
+            <h4>Recipe 2</h4>
+            <img src="" alt="Recipe Picture" />
+
+            <h4>Recipe 3</h4>
+            <img src="" alt="Recipe Picture" />
+        {% else %}
+            <h4>{{ other_user.username }} does not have any favourites yet</h4>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2>{{ other_user.username }}'s Recipes</h2>
+        {% if other_user_recipes %}
+            <table>
+                <tr>
+                    <th>Recipes</th>
+                </tr>
+                {% for recipe in other_user_recipes %}
+                <tr>
+                    <td>{{ recipe.title }}</td>
+                    <td>{{ recipe.mealType }}</td>
+                    <td>{{ recipe.ratingAvg }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h4>{{ user.usernmae }} does not have any recipes yet</h4>
+        {% endif %}
+
+    </div>
+
+    <div>
+        <h2>{{ other_user.username }}'s Reviews</h2>
+
+        {% if other_user_reviews %}
+            <table>
+                <tr>
+                    <th>Reviews</th>
+                </tr>
+                {% for comment in other_user_comments %}
+                <tr>
+                    <td>{{ comment.recipe }}</td>
+                    <td>{{ comment.comment }}</td>
+                    <td>{{ comment.date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h4>{{ other_user.username }} does not have any reviews yet</h4>
+        {% endif %}
+
+
+    </div>
+{% endblock %}

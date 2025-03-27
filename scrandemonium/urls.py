@@ -15,4 +15,5 @@ urlpatterns = [
     path('login/add_recipe/', views.add_recipe, name='add_recipe'),
     path('about/', views.about, name='about'),
     path('logout/', views.logout_user, name='logout'),
+    path('profile/<int:id>/', views.other_profile, name="other_profile")
  ]

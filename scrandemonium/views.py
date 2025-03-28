@@ -224,8 +224,14 @@ def logout_user(request):
 # PROFILE PAGE
 @login_required
 def my_profile(request):
-    user_recipes = request.user.recipes.all()
+    user_recipes = Recipe.objects.filter(user=request.user)
+    user_recipes = user_recipes.annotate(rating_avg=Avg('ratings__rating'))
     user_favourites = Favourite.objects.filter(user=request.user)
+
+    for fav in user_favourites:
+        image = fav.recipe.media.filter(media_type='IMAGE').first()
+        fav.media_url = image.media_url if image else None
+
     user_comments = Comment.objects.filter(user=request.user)
 
     return render(request, 'scrandemonium/profile.html', {
@@ -242,7 +248,9 @@ def about(request):
 def other_profile(request, id):
     other_user = User.objects.get(id=id)
     other_user_recipes = Recipe.objects.filter(user=other_user)
+    other_user_recipes = other_user_recipes.annotate(rating_avg=Avg('ratings__rating'))
     other_user_favourites = Favourite.objects.filter(user=other_user)
+    
     other_user_ratings = Rating.objects.filter(user=other_user)
 
     return render(request, 'scrandemonium/other_profile.html',{"other_user": other_user,

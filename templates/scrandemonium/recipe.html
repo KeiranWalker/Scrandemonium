@@ -96,7 +96,7 @@
             <h2>Reviews</h2>
             {% if comments %}
                 {% for comment in comments %}
-                    <div class="comment">
+                    <div class="comment" id="highlight">
                         <p><strong>{{ comment.user.username }}</strong>
                             {% for rating in recipe_ratings %}
                                 {% if rating.user.username == comment.user.username %}
@@ -110,7 +110,9 @@
             {% else %}
                 <p>No comments yet. Be the first to leave a review!</p>
             {% endif %}
-            <a href="{% url 'scrandemonium:review_recipe' recipe.recipe_id%}">Let us know what you think?</a>
+            <div style="margin-top: 20px;">
+                <a style="background-color: #5dbccf; color: white; padding: 10px; text-decoration: none; border-radius: 5px;" href="{% url 'scrandemonium:review_recipe' recipe.recipe_id%}">Let us know what you think?</a>
+            </div></div>
         </div>
     </div>
 {% endblock %}

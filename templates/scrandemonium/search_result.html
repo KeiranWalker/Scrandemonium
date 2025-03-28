@@ -8,33 +8,37 @@
 
 {% block body_block %}
     {% if searched %}
-        <h1>You searched for {{ searched }}</h1>
-        <br />
-        {% if recipes_by_title %}
-            <table class="recipe-table">
-                <thead>
-                    <tr>
-                        <th>Recipes By Title</th>
-                        <th>User</th>
-                        <th>Average Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for recipe in recipes_by_title %}
-                        <tr>
-                            <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
-                            <td>{{ recipe.user }}</td>
-                            <td>{{ recipe.rating_avg|default:"None"}}</td>
-                        </tr>
-                        
-                    {% endfor %}
-                </tbody>
-            </div>
-        {% endif %}
 
-        {% if recipes_tag_by_tag %}
+        <div class="box">
+        <h1>You searched for {{ searched }}</h1>
+        </div>
+
+        <div class="box">
             <br />
-        
+            {% if recipes_by_title %}
+                <table class="recipe-table">
+                    <thead>
+                        <tr>
+                            <th>Recipes By Title</th>
+                            <th>User</th>
+                            <th>Average Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipe in recipes_by_title %}
+                            <tr>
+                                <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
+                                <td>{{ recipe.user }}</td>
+                                <td>{{ recipe.rating_avg|default:"None"}}</td>
+                            </tr>
+                            
+                        {% endfor %}
+                    </tbody>
+                </div>
+            {% endif %}
+
+            {% if recipes_tag_by_tag %}
+            <br />
             <table class="recipe-table">
                 <thead>
                     <tr>
@@ -58,7 +62,7 @@
             </table>
         {% endif %}
 
-        {% if profiles %}
+            {% if profiles %}
             <br />
             <table class="recipe-table">
                 <thead>
@@ -78,7 +82,11 @@
                 </tbody>
             </table>
         {% endif %}
+        </div>
+
     {% else %}
+    <div class="box">
         <h1>You didnt search anything!?</h1>
+    </div>
     {% endif %}
 {% endblock %}

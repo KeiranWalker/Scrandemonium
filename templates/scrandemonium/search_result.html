@@ -23,7 +23,7 @@
                     {% for recipe in recipes_by_title %}
                         <tr>
                             <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
-                            <td>{{ recipe.user }}</td>
+                            <td><a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user }}</a></td>
                             <td>{{ recipe.rating_avg|default:"None"}}</td>
                         </tr>
                         
@@ -49,7 +49,7 @@
                         <tr>
                             <td><a href="{% url 'scrandemonium:recipe_page' recipe_tag.recipe.recipe_id %}">{{ recipe_tag.recipe.title }}</a></td>
                             <td>{{ recipe_tag.tag }}</td>
-                            <td>{{ recipe_tag.recipe.user }}</td>
+                            <td><a href="{% url 'scrandemonium:other_profile' recipe_tag.recipe.user.id %}">{{ recipe_tag.recipe.user }}</a></td>
                             <td>{{ recipe_tag.recipe.rating_avg|default:"None"}}</td>
                         </tr>
                         

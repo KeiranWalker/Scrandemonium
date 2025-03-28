@@ -19,7 +19,7 @@
                 <h2>Newest Dishes</h2>
                 <ul id="newest-recipes-list">
                     {% for recipe in newest_recipes %}
-                        <li>{{ recipe.title }} -- {{ recipe.user }}</li>
+                        <li><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a> -- <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user }}</a></li>
                     {% endfor %}
                   </ul>
             </div>
@@ -28,7 +28,7 @@
                 <h2>Best Rated Recipes</h2>
                 <ul id="best-rated-recipes-list">
                     {% for recipe in best_rated %}
-                        <li>{{ recipe.title }} -- {{ recipe.user }}</li>
+                        <li><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a>  -- <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user }}</a></li>
                     {% endfor %}
                   </ul>
             </div>

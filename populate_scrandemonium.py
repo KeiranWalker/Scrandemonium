@@ -320,7 +320,6 @@ def populate():
         {"user": "JohnDoe123", "recipe": "Spaghetti Bolognese", "rating": 4},
         {"user": "JohnDoe123", "recipe": "Chocolate Lava Cake", "rating": 5},
         {"user": "Marge1967", "recipe": "Pancakes", "rating": 4},
-        {"user": "Marge1967", "recipe": "Spaghetti Bolognese", "rating": 5},
         {"user": "Marge1967", "recipe": "Chocolate Lava Cake", "rating": 5},
     ]
 

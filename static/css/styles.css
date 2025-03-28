@@ -126,7 +126,7 @@ nav ul li a:hover {
     margin-left: 0;
 }
 
-/* Main Index */
+/* Main Page */
 .main-index {
     background: white;
     flex-grow: 1;                    
@@ -150,6 +150,13 @@ nav ul li a:hover {
     text-align: center;
     align-content: center;
     position: relative;
+}
+
+.add-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
 }
 
 /* Grid Layout for Newest & Best */
@@ -375,13 +382,6 @@ th {
 
 /*add_recipe*/
 
-.add-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; 
-    margin-bottom: 15px;
-}
-
 .ingredient-container select,
 .tag-container select {
     width: 80%; 
@@ -424,3 +424,13 @@ input[type="submit"]:hover {
     background-color: #013e80;
 }
 
+/*review*/
+input[type="radio"] {
+    transform: scale(1.5); 
+}
+
+textarea{
+    width: 80%; 
+    min-width: 200px; 
+    margin-right: 5px; 
+}

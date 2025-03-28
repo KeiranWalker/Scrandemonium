@@ -8,7 +8,7 @@
 {% block body_block %}
 
     <div class="container">
-        <div class="bio">
+        <div class="bio" id="highlight">
             <div class="bio text">
                 <h1>{{ MealType }} Recipes</h1>
                 <p>{{ description }}</p>
@@ -23,20 +23,20 @@
     <!-- Recipes List -->
     <div class="box">
         <h2>{{ MealType }}'s Recipes</h2>
-        <div class="index-grid">
+        <div class="index-grid" id="highlight">
             <div class="search-bar-recipes">
                 <form action="{% url 'scrandemonium:recipe_search_result' MealType %}" method="post">
                     {% csrf_token %}
                     <input type="text" placeholder="Search..." name="searched"/>
                 </form>
             </div>
-            <div class="filter">
+            <div class="filter" id="highlight">
                 <a href="{% url 'scrandemonium:index' %}">
                     <img src="{% static 'filter_icon.jpg' %}" alt="Scran Logo" />
                 </a>
             </div>
         </div>
-        <table class="recipe-table">
+        <table class="recipe-table" id="highlight">
             <thead>
                 <tr>
                     <th>Recipes</th>

@@ -338,7 +338,7 @@ th {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px #ecdfa0ce;
-    width: 96%;
+    width: 90%;
     margin: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     align-items: center;
@@ -372,3 +372,55 @@ th {
 .fav-btn:hover {
     background-color: #d64545;
 }
+
+/*add_recipe*/
+
+.add-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 15px;
+}
+
+.ingredient-container select,
+.tag-container select {
+    width: 80%; 
+    min-width: 200px; 
+}
+
+label {
+    width: 150px; 
+    display: inline-block; 
+}
+
+button{
+    background-color: #0056b3; 
+    color: white; 
+    border: none;
+    padding: 10px 20px; 
+    font-size: 16px; 
+    text-emphasis: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+input[type="submit"]:hover {
+    background-color: #013e80;
+    color: #ffffffe7;
+}
+
+.post-comment {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+}
+
+.post-comment:hover {
+    background-color: #013e80;
+}
+

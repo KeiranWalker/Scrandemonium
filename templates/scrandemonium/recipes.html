@@ -27,7 +27,7 @@
             <div class="search-bar-recipes">
                 <form action="{% url 'scrandemonium:recipe_search_result' MealType %}" method="post">
                     {% csrf_token %}
-                    <input type="text" placeholder="Search..." name="searched"/>
+                    <input type="text" placeholder="Search Our Recipes..." name="searched"/>
                 </form>
             </div>
             <div class="filter">

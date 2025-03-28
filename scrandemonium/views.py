@@ -225,6 +225,7 @@ def logout_user(request):
 @login_required
 def my_profile(request):
     user_recipes = Recipe.objects.filter(user=request.user)
+    print(request.user.profile_picture)
     user_recipes = user_recipes.annotate(rating_avg=Avg('ratings__rating'))
     user_favourites = Favourite.objects.filter(user=request.user)
 

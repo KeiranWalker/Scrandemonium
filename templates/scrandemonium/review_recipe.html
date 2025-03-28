@@ -7,7 +7,7 @@
 
 {% block body_block %}
 
-    <div>
+    <div class="box">
         <h1>{{ recipe.user }}'s {{ recipe.title }}</h1>
         <img src="{{ media.media_url }}" alt="Recipe Picture" />
     </div>
@@ -17,26 +17,33 @@
             {% csrf_token %}
 
                 <!--Rating-->
-                <div>
-                    <p>Rating:</p>
-                    <input type="radio" id="rating_1" name="rating" value="1" />
-                    <label for="rating_1">1</label>
-                    <input type="radio" id="rating_2" name="rating" value="2" />
-                    <label for="rating_2">2</label>
-                    <input type="radio" id="rating_3" name="rating" value="3" />
-                    <label for="rating_3">3</label>
-                    <input type="radio" id="rating_4" name="rating" value="4" />
-                    <label for="rating_4">4</label>
-                    <input type="radio" id="rating_5" name="rating" value="5" />
-                    <label for="rating_5">5</label>
+                <div class="bio">
+                    <div class="add-container">
+                        <h3>Rating:</h3>
+                        <input type="radio" id="rating_1" name="rating" value="1" />
+                        <label for="rating_1">1</label>
+                        <input type="radio" id="rating_2" name="rating" value="2" />
+                        <label for="rating_2">2</label>
+                        <input type="radio" id="rating_3" name="rating" value="3" />
+                        <label for="rating_3">3</label>
+                        <input type="radio" id="rating_4" name="rating" value="4" />
+                        <label for="rating_4">4</label>
+                        <input type="radio" id="rating_5" name="rating" value="5" />
+                        <label for="rating_5">5</label>
+                    </div>
                 </div>
 
-                <div>
-                    <!--Comments-->
-                    <p>Additional Comments:</p>
-                    <textarea id="comment" name="comment" rows="5" placeholder="Tell us what you think..."></textarea>
+                <div class="box">
+                    <div class="add-container">
+                        <!--Comments-->
+                        <h3>Additional Comments:</h3>
+                        <textarea id="comment" name="comment" rows="5" placeholder="Tell us what you think..."></textarea>
+                    </div>
                 </div>
-            <input type="submit" name="submit" value="Submit Review" />
+            
+                <div class="box">
+                    <input type="submit" name="submit" value="Submit Review" />
+                </div>
         </form>
     </div>
 

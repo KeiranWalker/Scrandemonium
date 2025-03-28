@@ -19,6 +19,14 @@
         <form id="login_form" class="login" method="post" action="" enctype="multipart/form-data">
             <p>Please enter your login details below:</p>
             {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <ul class="errorlist">
+                    {% for error in form.non_field_errors %}
+                    <li style="color: red;">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+{% endif %}
             <label for="username">Username or Email:</label>
             <input type="text" id="username" name="username" required />
 

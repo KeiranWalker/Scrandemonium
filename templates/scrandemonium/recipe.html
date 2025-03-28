@@ -25,6 +25,12 @@
                 {% else %}
                     <p><a href="{% url 'scrandemonium:login' %}">Login</a> to favourite this recipe.</p>
                 {% endif %}
+                {% if is_favourite %}
+                    <img src="{% static 'full heart.png' %}" class="heart" alt="Heart Icon" style="max-width: 100px; max-height: 100px;" />
+                {% else %}
+                    <img src="{% static 'empty.png' %}" class="heart" alt="Heart Icon" style="max-width: 100px; max-height: 100px;" />
+                {% endif %}
+            </script>
             </div>
             <h1>{{ recipe.title }}</h1>
             <p><strong>Uploaded by: <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user.username }}</a></strong> </p>
@@ -96,7 +102,7 @@
             <h2>Reviews</h2>
             {% if comments %}
                 {% for comment in comments %}
-                    <div class="comment" id="highlight">
+                    <div class="comment">
                         <p><strong>{{ comment.user.username }}</strong>
                             {% for rating in recipe_ratings %}
                                 {% if rating.user.username == comment.user.username %}
@@ -110,9 +116,7 @@
             {% else %}
                 <p>No comments yet. Be the first to leave a review!</p>
             {% endif %}
-            <div style="margin-top: 20px;">
-                <a style="background-color: #5dbccf; color: white; padding: 10px; text-decoration: none; border-radius: 5px;" href="{% url 'scrandemonium:review_recipe' recipe.recipe_id%}">Let us know what you think?</a>
-            </div></div>
+            <a href="{% url 'scrandemonium:review_recipe' recipe.recipe_id%}">Let us know what you think?</a>
         </div>
     </div>
 {% endblock %}

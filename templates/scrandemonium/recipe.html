@@ -25,6 +25,11 @@
                 {% else %}
                     <p><a href="{% url 'scrandemonium:login' %}">Login</a> to favourite this recipe.</p>
                 {% endif %}
+                {% if is_favourite %}
+                    <img src="{% static 'full heart.png' %}" class="heart" alt="Heart Icon" style="max-width: 100px; max-height: 100px;" />
+                {% else %}
+                    <img src="{% static 'empty.png' %}" class="heart" alt="Heart Icon" style="max-width: 100px; max-height: 100px;" />
+                {% endif %}
             </div>
             <h1>{{ recipe.title }}</h1>
             <p><strong>Uploaded by: <a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user.username }}</a></strong> </p>

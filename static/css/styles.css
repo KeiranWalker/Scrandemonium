@@ -357,6 +357,12 @@ th {
     right: 10px;
 }
 
+.heart {
+    position: absolute;
+    top: 70px;
+    right: 60px;
+}
+
 .fav-btn {
     background-color: #ff6b6b;
     color: white;

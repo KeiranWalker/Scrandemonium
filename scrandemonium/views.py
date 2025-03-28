@@ -251,12 +251,16 @@ def other_profile(request, id):
     other_user_recipes = other_user_recipes.annotate(rating_avg=Avg('ratings__rating'))
     other_user_favourites = Favourite.objects.filter(user=other_user)
     
-    other_user_ratings = Rating.objects.filter(user=other_user)
+    for fav in other_user_favourites:
+        image = fav.recipe.media.filter(media_type='IMAGE').first()
+        fav.media_url = image.media_url if image else None
+
+    other_user_comments = Comment.objects.filter(user=other_user)
 
     return render(request, 'scrandemonium/other_profile.html',{"other_user": other_user,
                             "other_user_recipes": other_user_recipes,
                             "other_user_favourites": other_user_favourites,
-                            "other_user_ratings": other_user_ratings})
+                            "other_user_comments": other_user_comments})
 
 # Search
 def search_result(request):

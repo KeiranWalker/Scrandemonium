@@ -9,7 +9,7 @@
 
     <div class="index-grid">
         <div class="bio" id="highlight">
-            <img src="{{ MEDIA_URL }}{{ user.profile_picture }}" >
+            <img src="{{ MEDIA_URL }}{{ user.profile_picture }}"width="400" >
 
             <h1>{{ user.username }}</h1>
             <p>{{ user.biography }}</p>
@@ -20,12 +20,12 @@
 
             {% if user_favourites %}
                 {% for fav in user_favourites %}
-                    <h3>{{ fav.recipe.title }}
+                    <h4>{{ fav.recipe.title }}
                     {% if fav.media_url %}
                         <img src="{{ fav.media_url }}" alt="{{ fav.recipe.title }}" width="50" />
                     {% else %}
                         <p>No image available</p>
-                    </h3>
+                    </h4>
                     {% endif %}
                 {% endfor %}
             {% else %}

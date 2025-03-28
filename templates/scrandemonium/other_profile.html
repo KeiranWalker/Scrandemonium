@@ -9,7 +9,7 @@
 
     <div class="index-grid">
         <div class="bio" id="highlight">
-            <img src="{{ MEDIA_URL }}{{ other_user.profile_picture }}" >
+            <img src="{{ MEDIA_URL }}{{ other_user.profile_picture }}"width="400" >
 
             <h1>{{ other_user.username }}</h1>
             <p>{{ other_user.biography }}</p>
@@ -19,13 +19,14 @@
             <h2>{{ other_user.username }}'s Favourites</h2>
 
             {% if other_user_favourites %}
-                {% for favourite in other_user_favourites %}
-                    <h4>{{ favourite.recipe.title }}</h4>
-                    {% if favourite.recipe.image %}
-                        <img src="{{ favourite.recipe.image.url }}" alt="Recipe Picture" />
+                {% for fav in other_user_favourites %}
+                    <h4>{{ fav.recipe.title }}
+                    {% if fav.media_url %}
+                        <img src="{{ fav.media_url }}" alt="{{ fav.recipe.title }}" width="50" />
                     {% else %}
                         <p>No image available</p>
                     {% endif %}
+                    </h4>
                 {% endfor %}
             {% else %}
                 <h4>{{ other_user.username }} does not have any favourites yet</h4>

@@ -105,6 +105,7 @@ def recipe(request, recipe_id):
     avg_rating = Rating.objects.filter(recipe=recipe).aggregate(Avg('rating'))['rating__avg']
     recipe_ratings = Rating.objects.filter(recipe=recipe)
     steps = recipe.step.split(';')
+    tags = recipe.tags.all()
 
     # Handle POST: Toggle favourite
     if request.method == "POST" and request.user.is_authenticated:
@@ -130,6 +131,7 @@ def recipe(request, recipe_id):
         'recipe_ratings': recipe_ratings,
         'favourite_count': favourite_count,
         'is_favourite': is_favourite,
+        'tags': tags,
     })
 
 # REGISTER PAGE

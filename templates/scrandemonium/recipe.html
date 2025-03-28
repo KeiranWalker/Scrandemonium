@@ -37,6 +37,7 @@
             <p><strong>Rating: {{ avg_rating }}</strong> </p>
             <p><strong>Servings: {{ recipe.servings }}</strong> </p>
             <p><strong>Time to make: {{ recipe.cooking_time }} mins</strong> </p>
+            <p><strong>Tags: </strong>{% for tag in tags %}{{ tag.tag|title }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
     
             <!--Ingredients Table-->
             <h2>Ingredients</h2>

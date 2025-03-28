@@ -16,13 +16,13 @@ def populate():
           "password": "Password1",
           "biography": "I am a fun, food loving, culinary genius.  Looking to share my gift with the world.", 
           "email": "JoeDoe123@gmail.com", 
-          "profile_picture": MEDIA_URL+"populationScript/PopulationScriptJohnDoe.png",
+          "profile_picture": MEDIA_URL+"profile_pictures/PopulationScriptJohnDoe.png",
           "is_superuser": False},
         {"username": "Marge1967", 
          "password": "Password3", 
          "biography": "Hello Dears.  Grandmother of 2 xx", 
          "email": "MargeSmith67@sky.com", 
-         "profile_picture": MEDIA_URL+"populationScript/PopulationScriptMarge.jpg", 
+         "profile_picture": MEDIA_URL+"profile_pictures/PopulationScriptMarge.jpg", 
          "is_superuser": False}
     ]
 

@@ -48,7 +48,7 @@
                 {% for recipe in recipes %}
                 <tr>
                     <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
-                    <td>{{ recipe.user }}</td>
+                    <td><a href="{% url 'scrandemonium:other_profile' recipe.user.id %}">{{ recipe.user }}</a></td>
                     <td>{{ recipe.rating_avg|default:"None"}}</td>
                 </tr>
                 {% endfor %}

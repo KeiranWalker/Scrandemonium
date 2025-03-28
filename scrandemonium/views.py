@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, RecipeTag, Tag
+from .models import Recipe, Rating, Comment, Favourite, Media, RecipeIngredient, Ingredient, RecipeTag, Tag, User
 from django.db.models import Avg
 from .forms import CustomUserCreationForm, ProfileForm, AddRecipeForm, LoginForm, ReviewForm
 from django.templatetags.static import static
@@ -254,9 +254,13 @@ def other_profile(request, id):
 def search_result(request):
     if request.method == 'POST':
         searched = request.POST.get('searched', '').strip()
-        recipes = Recipe.objects.filter(title__contains=searched)
+        recipes_by_title = Recipe.objects.filter(title__contains=searched)
+        recipes_tag_by_tag = RecipeTag.objects.filter(tag__name__contains=searched)
+        profiles = User.objects.filter(username__contains=searched)
         return render(request, 'scrandemonium/search_result.html', {'searched': searched,
-                                                                    'recipes': recipes})
+                                                                    'recipes_by_title': recipes_by_title,
+                                                                    'recipes_tag_by_tag': recipes_tag_by_tag,
+                                                                    'profiles': profiles})
     else:
         return redirect('scrandemonium:index')
     
@@ -265,6 +269,7 @@ def recipe_search_result(request, meal_type):
     if request.method == 'POST':
         searched = request.POST.get('searched', '').strip()
         recipes = Recipe.objects.filter(title__contains=searched, meal_type=meal_type)
+
         return render(request, 'scrandemonium/recipe_search_result.html', {'searched': searched,
                                                                     'recipes': recipes, 'meal_type': meal_type})
     else:

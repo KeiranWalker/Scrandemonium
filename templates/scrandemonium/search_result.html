@@ -10,24 +10,74 @@
     {% if searched %}
         <h1>You searched for {{ searched }}</h1>
         <br />
-        <table class="recipe-table">
-            <thead>
-                <tr>
-                    <th>Recipes</th>
-                    <th>User</th>
-                    <th>Average Rating</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for recipe in recipes %}
+        {% if recipes_by_title %}
+            <table class="recipe-table">
+                <thead>
                     <tr>
-                        <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
-                        <td>{{ recipe.user }}</td>
-                        <td>{{ recipe.rating_avg|default:"None"}}</td>
+                        <th>Recipes By Title</th>
+                        <th>User</th>
+                        <th>Average Rating</th>
                     </tr>
-                    
-                {% endfor %}
-            </tbody>
+                </thead>
+                <tbody>
+                    {% for recipe in recipes_by_title %}
+                        <tr>
+                            <td><a href="{% url 'scrandemonium:recipe_page' recipe.recipe_id %}">{{ recipe.title }}</a></td>
+                            <td>{{ recipe.user }}</td>
+                            <td>{{ recipe.rating_avg|default:"None"}}</td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+            </div>
+        {% endif %}
+
+        {% if recipes_tag_by_tag %}
+            <br />
+        
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th>Recipes By Tags</th>
+                        <th>Tag</th>
+                        <th>User</th>
+                        <th>Average Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recipe_tag in recipes_tag_by_tag %}
+                        <tr>
+                            <td><a href="{% url 'scrandemonium:recipe_page' recipe_tag.recipe.recipe_id %}">{{ recipe_tag.recipe.title }}</a></td>
+                            <td>{{ recipe_tag.tag }}</td>
+                            <td>{{ recipe_tag.recipe.user }}</td>
+                            <td>{{ recipe_tag.recipe.rating_avg|default:"None"}}</td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        {% if profiles %}
+            <br />
+            <table class="recipe-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for profile in profiles %}
+                        <tr>
+                            <td><a href="{% url 'scrandemonium:other_profile' profile.id %}">{{ profile.username}}</a></td>
+                            <td>{{ profile.email }}</td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
     {% else %}
         <h1>You didnt search anything!?</h1>
     {% endif %}

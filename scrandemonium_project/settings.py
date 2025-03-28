@@ -27,7 +27,7 @@ SECRET_KEY = '@mvmju-*b7&-0q6)3-7x&y%8xrh*#ng&s6j2!4c6lh$o_yupx^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['scrandemonium.pythonanywhere.com']
 
 AUTH_USER_MODEL = 'scrandemonium.User'
 

@@ -279,11 +279,9 @@ input[type="submit"]:hover {
 }
 
 .search-bar-recipes {
-    border: 1px black;
-    border-radius: 60px;
-    height: 30px;
+    height: 40px;
     display: flex;
-    padding: 2px 5px 2px 30px;
+    padding: 5px 15px;
     outline: 0;
     background-color: #f5f5f5;
     margin-left: 30%;
@@ -294,29 +292,11 @@ input[type="submit"]:hover {
 .search-bar-recipes input {
     background: transparent;
     flex: 1;
-    border: 0;
+    border: none;
+    height: 100%;
     outline: none;
-    padding: 30px 20px;
+    padding: 5px 10px;
     font-size: 15px;
-}
-
-
-.filter{
-    border: 1px black;
-    border-radius: 60px;
-    height: 30px;
-    display: flex;
-    padding: 2px 5px 2px 30px;
-    outline: 0;
-    margin-left: 0%;
-    width: 40px;
-    align-items: center;
-    background-color: transparent;
-}
-
-.filter img{
-    height: 25px;
-    width: 25px;
 }
 
 /*Recipe Page*/

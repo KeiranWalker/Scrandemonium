@@ -7,50 +7,74 @@
 
 {% block body_block %}
 
-<h1>Add a Recipe</h1>
+<div class="box">
+  <h1>Add a Recipe</h1>
+</div>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
 
+    <div class="box">
+      <div class="add-container">
+        {{ form.as_p }}
+      </div>
+    </div>
+
+    <div class="box">
     <!-- INGREDIENTS -->
-    <label for="ingredient-select">Ingredients:</label>
-    <select id="ingredient-select" multiple="multiple" style="width: 100%;">
-        {% for ingredient in all_ingredients %}
-            <option value="{{ ingredient.name }}">{{ ingredient.name }}</option>
-        {% endfor %}
-    </select>
-    <div id="ingredient-list" class="mt-2"></div>
-    <br>
-
-    <!-- TAGS -->
-    <label for="tag-select">Tags:</label>
-    <select id="tag-select" name="tags" multiple="multiple" style="width: 100%;">
-        {% for tag in all_tags %}
-            <option value="{{ tag.name }}">{{ tag.name }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
+        <div class="add-container">
+          <label for="ingredient-select">Ingredients:</label>
+          <select id="ingredient-select" multiple="multiple">
+              {% for ingredient in all_ingredients %}
+                  <option value="{{ ingredient.name }}">{{ ingredient.name }}</option>
+              {% endfor %}
+          </select>
+        </div>
+      <div id="ingredient-list" class="mt-2"></div>
+      <br>
+      
+      <!-- TAGS -->
+      <div class="add-container">
+          <label for="tag-select">Tags:</label>
+          <select id="tag-select" name="tags" multiple="multiple">
+              {% for tag in all_tags %}
+                  <option value="{{ tag.name }}">{{ tag.name }}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <br><br>
+    </div>
 
     <!-- STEPS -->
-    <label for="step-input">Steps:</label>
-    <input type="text" id="step-input" placeholder="Type a step and press Enter" style="width: 100%; max-width: 600px;">
-    <ol id="steps-list"></ol>
-    <input type="hidden" name="step" id="step-hidden">
-    <br>
+    <div class="box">
+      <div class="add-container">
+        <label for="step-input">Steps:</label>
+        <input type="text" id="step-input" placeholder="Type a step and press Enter" style="width: 100%; max-width: 600px;">
+        <ol id="steps-list"></ol>
+        <input type="hidden" name="step" id="step-hidden">
+        <br>
+      </div>
+    </div>
 
-    <!-- IMAGE -->
-    <label for="recipe_picture_file">Upload Image:</label>
-    <input type="file" name="recipe_picture_file" accept="image/*">
-    <br><br>
 
-    <!-- VIDEO -->
-    <label for="recipe_video_file">Upload Video:</label>
-    <input type="file" name="recipe_video_file" accept="video/*">
-    <br><br>
+    <div class="box">
+      <div class="add-container">
+        <!-- IMAGE -->
+        <label for="recipe_picture_file">Upload Image:</label>
+        <input type="file" name="recipe_picture_file" accept="image/*">
+        <br><br>
 
-    <!-- SUBMIT -->
-    <button type="submit">Post Recipe</button>
+        <!-- VIDEO -->
+        <label for="recipe_video_file">Upload Video:</label>
+        <input type="file" name="recipe_video_file" accept="video/*">
+        <br><br>
+      </div>
+    </div>
+
+    <div class="box">
+      <!-- SUBMIT -->
+      <button type="submit">Post Recipe</button>
+    </div>
 </form>
 
 <!-- JS + Select2 -->

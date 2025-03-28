@@ -110,7 +110,9 @@
             {% else %}
                 <p>No comments yet. Be the first to leave a review!</p>
             {% endif %}
-            <a href="{% url 'scrandemonium:review_recipe' recipe.recipe_id%}">Let us know what you think?</a>
+            <a href="{% url 'scrandemonium:review_recipe' recipe.recipe_id %}" class="post-comment">
+                Let us know what you think?
+            </a>
         </div>
     </div>
 {% endblock %}
